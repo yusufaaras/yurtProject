@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Login = ({ setIsAuthenticated, setUserType }) => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -41,6 +43,7 @@ const Login = ({ setIsAuthenticated, setUserType }) => {
         localStorage.setItem('userEmail', formData.email);
         setIsAuthenticated(true);
         setUserType(formData.userType);
+        navigate('/');
       } else {
         setError('Please fill in all fields');
       }

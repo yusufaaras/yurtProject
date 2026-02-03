@@ -72,22 +72,22 @@ function App() {
     toggleTheme
   };
 
-  if (!isAuthenticated) {
-    return (
-      <ThemeContext.Provider value={themeValue}>
-        <Login setIsAuthenticated={setIsAuthenticated} setUserType={setUserType} />
-      </ThemeContext.Provider>
-    );
-  }
-
   return (
     <ThemeContext.Provider value={themeValue}>
       <Router>
         <div className="App">
-          <Navbar userType={userType} onLogout={handleLogoutClick} />
+          <Navbar
+            userType={userType}
+            onLogout={handleLogoutClick}
+            isAuthenticated={isAuthenticated}
+          />
           <div className="main-content">
             <Routes>
               <Route path="/" element={<Dashboard userType={userType} />} />
+              <Route
+                path="/login"
+                element={<Login setIsAuthenticated={setIsAuthenticated} setUserType={setUserType} />}
+              />
               <Route path="/students" element={<Students userType={userType} />} />
               <Route path="/rooms" element={<Rooms userType={userType} />} />
               <Route path="/payments" element={<Payments userType={userType} />} />

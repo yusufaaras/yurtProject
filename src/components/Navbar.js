@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTheme } from '../App';
 
-const Navbar = ({ userType, onLogout }) => {
+const Navbar = ({ userType, onLogout, isAuthenticated }) => {
   const location = useLocation();
   const userEmail = localStorage.getItem('userEmail');
   const { theme, toggleTheme } = useTheme();
@@ -37,62 +37,71 @@ const Navbar = ({ userType, onLogout }) => {
           </small>
         </div>
         
-        <ul className="navbar-nav">
-          {filteredMenuItems.map(item => (
-            <li key={item.path}>
-              <Link 
-                to={item.path} 
-                className={`nav-link ${location.pathname === item.path ? 'active' : ''}`}
-              >
-                <span>{item.icon}</span>
-                {item.label}
-              </Link>
+        {isAuthenticated ? (
+          <ul className="navbar-nav">
+            {filteredMenuItems.map(item => (
+              <li key={item.path}>
+                <Link 
+                  to={item.path} 
+                  className={`nav-link ${location.pathname === item.path ? 'active' : ''}`}
+                >
+                  <span>{item.icon}</span>
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+            
+            {/* User Profile Section */}
+            <li>
+              <div className="user-profile">
+                <div className="user-avatar">
+                  {getUserInitials(userEmail)}
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+                  <span style={{ fontSize: '0.875rem', fontWeight: '600' }}>
+                    {userType === 'admin' ? 'Admin' : 'Student'}
+                  </span>
+                  <span style={{ fontSize: '0.75rem', opacity: 0.8 }}>
+                    {userEmail}
+                  </span>
+                </div>
+              </div>
             </li>
-          ))}
-          
-          {/* User Profile Section */}
-          <li>
-            <div className="user-profile">
-              <div className="user-avatar">
-                {getUserInitials(userEmail)}
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-                <span style={{ fontSize: '0.875rem', fontWeight: '600' }}>
-                  {userType === 'admin' ? 'Admin' : 'Student'}
+            
+            {/* Theme Toggle */}
+            <li>
+              <button 
+                className="nav-link theme-toggle" 
+                onClick={toggleTheme}
+                title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+              >
+                <span>
+                  {theme === 'light' ? '🌙' : '☀️'}
                 </span>
-                <span style={{ fontSize: '0.75rem', opacity: 0.8 }}>
-                  {userEmail}
-                </span>
-              </div>
-            </div>
-          </li>
-          
-          {/* Theme Toggle */}
-          <li>
-            <button 
-              className="nav-link theme-toggle" 
-              onClick={toggleTheme}
-              title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-            >
-              <span>
-                {theme === 'light' ? '🌙' : '☀️'}
-              </span>
-              {theme === 'light' ? 'Dark' : 'Light'}
-            </button>
-          </li>
-          
-          {/* Logout Button */}
-          <li>
-            <button 
-              className="nav-link logout-btn" 
-              onClick={onLogout}
-              title="Logout from the system"
-            >
-              <span>🚪</span>
-              Logout
-            </button>
-          </li>
-        </ul>
+                {theme === 'light' ? 'Dark' : 'Light'}
+              </button>
+            </li>
+            
+            {/* Logout Button */}
+            <li>
+              <button 
+                className="nav-link logout-btn" 
+                onClick={onLogout}
+                title="Logout from the system"
+              >
+                <span>🚪</span>
+                Logout
+              </button>
+            </li>
+          </ul>
+        ) : (
+          <div className="navbar-cta">
+            <Link className="nav-link login-btn" to="/login">
+              <span>🔐</span>
+              Giriş Yap
+            </Link>
+          </div>
+        )}
       </div>
     </nav>
   );

@@ -15,14 +15,10 @@ const Navbar = ({ userType, onLogout, isAuthenticated }) => {
   };
 
   const menuItems = [
-    { path: '/', label: 'Dashboard', icon: '📊', roles: ['student', 'admin'] },
-    { path: '/students', label: 'Students', icon: '👨‍🎓', roles: ['admin'] },
-    { path: '/rooms', label: 'Rooms', icon: '🛏️', roles: ['admin'] },
-    { path: '/payments', label: 'Payments', icon: '💰', roles: ['admin'] },
-    { path: '/outpass', label: 'Outpass', icon: '🚪', roles: ['student', 'admin'] },
-    { path: '/visitors', label: 'Visitors', icon: '👥', roles: ['student', 'admin'] },
-    { path: '/maintenance', label: 'Maintenance', icon: '🔧', roles: ['student', 'admin'] },
-    { path: '/emergency', label: 'Emergency', icon: '🚨', roles: ['student', 'admin'] },
+    { path: '/', label: 'Ana Sayfa', icon: '🏠', roles: ['student', 'admin'] },
+    { path: '/about', label: 'Hakkımızda', icon: 'ℹ️', roles: ['student', 'admin'] },
+    { path: '/outpass', label: 'Yurt İzin', icon: '📝', roles: ['student', 'admin'] },
+    { path: '/meals', label: 'Yemek Listesi Görüntüle', icon: '🍽️', roles: ['student', 'admin'] },
   ];
 
   const filteredMenuItems = menuItems.filter(item => item.roles.includes(userType));
@@ -31,10 +27,7 @@ const Navbar = ({ userType, onLogout, isAuthenticated }) => {
     <nav className="navbar">
       <div className="navbar-content">
         <div className="navbar-brand">
-          🏠 Hostel Management
-          <small>
-            {userType === 'admin' ? '👨‍💼 Admin' : '👨‍🎓 Student'} Portal
-          </small>
+          🏠 Yurt İzin Sistemi
         </div>
         
         {isAuthenticated ? (
@@ -53,25 +46,20 @@ const Navbar = ({ userType, onLogout, isAuthenticated }) => {
             
             {/* User Profile Section */}
             <li>
-              <div className="user-profile">
+              <div className="user-profile minimal">
                 <div className="user-avatar">
                   {getUserInitials(userEmail)}
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-                  <span style={{ fontSize: '0.875rem', fontWeight: '600' }}>
-                    {userType === 'admin' ? 'Admin' : 'Student'}
-                  </span>
-                  <span style={{ fontSize: '0.75rem', opacity: 0.8 }}>
-                    {userEmail}
-                  </span>
-                </div>
+                <span className="user-role">
+                  {userType === 'admin' ? 'Admin' : 'Student'}
+                </span>
               </div>
             </li>
             
             {/* Theme Toggle */}
             <li>
               <button 
-                className="nav-link theme-toggle" 
+                className="nav-link theme-toggle minimal" 
                 onClick={toggleTheme}
                 title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
               >
@@ -81,16 +69,16 @@ const Navbar = ({ userType, onLogout, isAuthenticated }) => {
                 {theme === 'light' ? 'Dark' : 'Light'}
               </button>
             </li>
-            
+
             {/* Logout Button */}
             <li>
               <button 
-                className="nav-link logout-btn" 
+                className="nav-link logout-btn minimal" 
                 onClick={onLogout}
                 title="Logout from the system"
               >
                 <span>🚪</span>
-                Logout
+                Çıkış Yap
               </button>
             </li>
           </ul>

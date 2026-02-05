@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { apiService } from '../services/api';
 import DashboardChart from './DashboardChart';
 
@@ -10,6 +11,8 @@ const Dashboard = ({ userType }) => {
     availableRooms: 0
   });
   const [loading, setLoading] = useState(true);
+  const [showLateModal, setShowLateModal] = useState(false);
+  const [lateForm, setLateForm] = useState({ time: '', reason: '' });
 
   useEffect(() => {
     fetchDashboardStats();
@@ -26,6 +29,17 @@ const Dashboard = ({ userType }) => {
     }
   };
 
+  const handleLateChange = (e) => {
+    setLateForm({ ...lateForm, [e.target.name]: e.target.value });
+  };
+
+  const handleLateSubmit = (e) => {
+    e.preventDefault();
+    alert('Geç giriş bildiriminiz alındı. Yönetici onayı bekleniyor.');
+    setLateForm({ time: '', reason: '' });
+    setShowLateModal(false);
+  };
+
   if (loading) {
     return <div className="loading">Loading dashboard data...</div>;
   }
@@ -40,67 +54,66 @@ const Dashboard = ({ userType }) => {
       <div className="stats-grid">
         <div className="stat-card students">
           <span className="icon">👨‍🎓</span>
-          <h3>Total Students</h3>
+          <h3>Toplam Öğrencilerimiz</h3>
           <div className="number">{stats.totalStudents}</div>
-          <div className="trend">Active registrations</div>
+          <div className="trend">Aktif kayıtlı öğrenci</div>
         </div>
         
         <div className="stat-card rooms">
-          <span className="icon">🛏️</span>
-          <h3>Total Rooms</h3>
+          <span className="icon">🏢</span>
+          <h3>Yurtlarımız</h3>
           <div className="number">{stats.totalRooms}</div>
-          <div className="trend">Allocated spaces</div>
+          <div className="trend">Toplam kapasite</div>
         </div>
         
         <div className="stat-card available">
-          <span className="icon">🏠</span>
-          <h3>Available Rooms</h3>
+          <span className="icon">🚌</span>
+          <h3>Servis İmkanımız</h3>
           <div className="number">{stats.availableRooms}</div>
-          <div className="trend">Ready for occupancy</div>
+          <div className="trend">
+            <a className="stat-link" href="/about">Sefer Saatleri &amp; Güzergah</a>
+          </div>
         </div>
         
-        <div className="stat-card revenue">
-          <span className="icon">💰</span>
-          <h3>Monthly Revenue</h3>
-          <div className="number">${stats.monthlyRevenue}</div>
-          <div className="trend">This month's earnings</div>
+        <div className="stat-card revenue menu-card">
+          <span className="icon">🍽️</span>
+          <h3>Günün Menüsü</h3>
+          <div className="menu-media">
+            <img src="/meal-of-day.svg" alt="Günün menüsü" />
+            <div>
+              <div className="number">Etli Nohut</div>
+              <div className="trend">Pirinç pilavı &amp; ayran</div>
+            </div>
+          </div>
         </div>
       </div>
 
       <div className="quick-actions">
-        <h2>Quick Actions</h2>
-        <div className="actions-grid">
-          <div className="action-item">
-            <div className="icon">👨‍🎓</div>
+        <h2>Hızlı Aksiyonlar</h2>
+        <div className="actions-grid compact">
+          <Link to="/outpass" className="action-button">
+            <div className="action-icon">📝</div>
             <div className="content">
-              <h3>Manage Students</h3>
-              <p>Add, edit, and view student information</p>
+              <h3>Yurttan İzin Al</h3>
+              <p>İzin formunu hızlıca doldur ve gönder</p>
             </div>
-          </div>
+          </Link>
           
-          <div className="action-item">
-            <div className="icon">🛏️</div>
+          <Link to="/meals" className="action-button">
+            <div className="action-icon">🍽️</div>
             <div className="content">
-              <h3>Room Management</h3>
-              <p>Allocate and track room assignments</p>
+              <h3>Yemek Listesini Görüntüle</h3>
+              <p>Haftalık yemek listesini incele</p>
             </div>
-          </div>
+          </Link>
           
-          <div className="action-item">
-            <div className="icon">💰</div>
+          <button className="action-button danger" onClick={() => setShowLateModal(true)}>
+            <div className="action-icon">⏰</div>
             <div className="content">
-              <h3>Payment Tracking</h3>
-              <p>Monitor fees and payment status</p>
+              <h3>Geç Giriş Bildir</h3>
+              <p>Geç giriş bilgini yönetime ilet</p>
             </div>
-          </div>
-          
-          <div className="action-item">
-            <div className="icon">📊</div>
-            <div className="content">
-              <h3>Reports & Analytics</h3>
-              <p>Generate insights and reports</p>
-            </div>
-          </div>
+          </button>
         </div>
       </div>
 
@@ -146,6 +159,50 @@ const Dashboard = ({ userType }) => {
           </div>
         </div>
       </div>
+
+      {showLateModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h2>Geç Giriş Bildir</h2>
+              <button className="close-btn" onClick={() => setShowLateModal(false)}>×</button>
+            </div>
+            <form onSubmit={handleLateSubmit}>
+              <div className="form-group">
+                <label>Geç Giriş Saati</label>
+                <input
+                  type="time"
+                  name="time"
+                  value={lateForm.time}
+                  onChange={handleLateChange}
+                  className="form-control"
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label>Geç Giriş Nedeni</label>
+                <textarea
+                  name="reason"
+                  value={lateForm.reason}
+                  onChange={handleLateChange}
+                  className="form-control"
+                  rows="3"
+                  placeholder="Örn: Trafik, sınav uzadı"
+                  required
+                />
+              </div>
+              <div style={{ display: 'flex', gap: '1rem', justifyContent: 'flex-end' }}>
+                <button type="button" className="btn btn-secondary" onClick={() => setShowLateModal(false)}>
+                  Vazgeç
+                </button>
+                <button type="submit" className="btn btn-success">
+                  Bildirimi Gönder
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

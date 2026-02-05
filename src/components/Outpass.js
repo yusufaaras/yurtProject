@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 
 const Outpass = ({ userType }) => {
   const [outpasses, setOutpasses] = useState([]);
-  const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({
+    start_date: '',
+    end_date: '',
     reason: '',
-    destination: '',
-    expected_return_date: '',
-    expected_return_time: '',
-    emergency_contact: '',
-    emergency_phone: ''
+  });
+  const [lateEntry, setLateEntry] = useState({
+    late_reason: '',
+    late_time: '',
   });
 
   useEffect(() => {
@@ -23,28 +23,18 @@ const Outpass = ({ userType }) => {
         {
           id: 1,
           student_name: 'John Doe',
-          reason: 'Medical appointment',
-          destination: 'City Hospital',
-          out_date: '2025-01-22',
-          out_time: '10:00',
-          expected_return_date: '2025-01-22',
-          expected_return_time: '18:00',
+          reason: 'Hastane randevusu',
+          start_date: '2025-01-22',
+          end_date: '2025-01-22',
           status: 'approved',
-          emergency_contact: 'Jane Doe',
-          emergency_phone: '+1234567890'
         },
         {
           id: 2,
           student_name: 'Alice Smith',
-          reason: 'Family visit',
-          destination: 'Home',
-          out_date: '2025-01-23',
-          out_time: '08:00',
-          expected_return_date: '2025-01-25',
-          expected_return_time: '20:00',
+          reason: 'Aile ziyareti',
+          start_date: '2025-01-23',
+          end_date: '2025-01-25',
           status: 'pending',
-          emergency_contact: 'Bob Smith',
-          emergency_phone: '+1987654321'
         }
       ];
       setOutpasses(mockOutpasses);
@@ -58,15 +48,15 @@ const Outpass = ({ userType }) => {
     try {
       const newOutpass = {
         id: Date.now(),
-        student_name: localStorage.getItem('userEmail'),
-        ...formData,
-        out_date: new Date().toISOString().split('T')[0],
-        out_time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
+        student_name: localStorage.getItem('userEmail') || 'Öğrenci',
+        start_date: formData.start_date,
+        end_date: formData.end_date,
+        reason: formData.reason,
         status: 'pending'
       };
       setOutpasses([...outpasses, newOutpass]);
       resetForm();
-      alert('Outpass request submitted successfully!');
+      alert('İzin talebiniz gönderildi!');
     } catch (error) {
       console.error('Error submitting outpass:', error);
     }
@@ -86,14 +76,10 @@ const Outpass = ({ userType }) => {
 
   const resetForm = () => {
     setFormData({
+      start_date: '',
+      end_date: '',
       reason: '',
-      destination: '',
-      expected_return_date: '',
-      expected_return_time: '',
-      emergency_contact: '',
-      emergency_phone: ''
     });
-    setShowModal(false);
   };
 
   const handleChange = (e) => {
@@ -101,6 +87,19 @@ const Outpass = ({ userType }) => {
       ...formData,
       [e.target.name]: e.target.value
     });
+  };
+
+  const handleLateEntryChange = (e) => {
+    setLateEntry({
+      ...lateEntry,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleLateSubmit = (e) => {
+    e.preventDefault();
+    alert('Geç giriş bildiriminiz alındı. Yönetici onayı bekleniyor.');
+    setLateEntry({ late_reason: '', late_time: '' });
   };
 
   const getStatusColor = (status) => {
@@ -114,14 +113,103 @@ const Outpass = ({ userType }) => {
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-        <h1>Outpass Management</h1>
-        {userType === 'student' && (
-          <button className="btn btn-primary" onClick={() => setShowModal(true)}>
-            Request New Outpass
-          </button>
-        )}
+      <div className="outpass-header">
+        <div>
+          <h1>Yurt İzin</h1>
+          <p className="outpass-subtitle">İzin talebinizi hızlıca oluşturun ve takip edin.</p>
+        </div>
       </div>
+
+      {userType === 'student' && (
+        <div className="outpass-layout">
+          <div className="card outpass-card">
+            <div className="card-header">İzin Talep Formu</div>
+            <div className="card-body">
+              <form onSubmit={handleSubmit} className="outpass-form">
+                <div className="form-group">
+                  <label>Başlangıç Tarihi</label>
+                  <input
+                    type="date"
+                    name="start_date"
+                    value={formData.start_date}
+                    onChange={handleChange}
+                    className="form-control"
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Bitiş Tarihi</label>
+                  <input
+                    type="date"
+                    name="end_date"
+                    value={formData.end_date}
+                    onChange={handleChange}
+                    className="form-control"
+                    min={formData.start_date || undefined}
+                    required
+                  />
+                </div>
+                <div className="form-group form-full">
+                  <label>İzin Nedeni</label>
+                  <textarea
+                    name="reason"
+                    value={formData.reason}
+                    onChange={handleChange}
+                    className="form-control"
+                    rows="4"
+                    placeholder="Kısa ve net bir açıklama yazın"
+                    required
+                  />
+                </div>
+                <div className="form-actions">
+                  <button type="submit" className="btn btn-primary">
+                    İzin Talebi Gönder
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div className="card outpass-card late-card">
+            <div className="card-header">Geç Giriş Bildir</div>
+            <div className="card-body">
+              <p className="late-desc">
+                Geç giriş yapacaksanız kısa bir açıklama ve tahmini saati bırakın.
+              </p>
+              <form onSubmit={handleLateSubmit} className="late-form">
+                <div className="form-group">
+                  <label>Geç Giriş Saati</label>
+                  <input
+                    type="time"
+                    name="late_time"
+                    value={lateEntry.late_time}
+                    onChange={handleLateEntryChange}
+                    className="form-control"
+                    required
+                  />
+                </div>
+                <div className="form-group form-full">
+                  <label>Geç Giriş Nedeni</label>
+                  <textarea
+                    name="late_reason"
+                    value={lateEntry.late_reason}
+                    onChange={handleLateEntryChange}
+                    className="form-control"
+                    rows="3"
+                    placeholder="Örn: Trafik, sınav uzadı"
+                    required
+                  />
+                </div>
+                <div className="form-actions">
+                  <button type="submit" className="btn btn-success">
+                    Geç Giriş Bildir
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
 
       {userType === 'admin' && (
         <div className="stats-grid" style={{ marginBottom: '2rem' }}>
@@ -146,7 +234,7 @@ const Outpass = ({ userType }) => {
 
       <div className="card">
         <div className="card-header">
-          {userType === 'admin' ? 'All Outpass Requests' : 'My Outpass Requests'}
+          {userType === 'admin' ? 'Tüm İzin Talepleri' : 'İzin Taleplerim'}
         </div>
         <div className="card-body">
           <div className="table-container">
@@ -155,11 +243,9 @@ const Outpass = ({ userType }) => {
                 <tr>
                   <th>ID</th>
                   {userType === 'admin' && <th>Student</th>}
-                  <th>Reason</th>
-                  <th>Destination</th>
-                  <th>Out Date</th>
-                  <th>Expected Return</th>
-                  <th>Emergency Contact</th>
+                  <th>Başlangıç</th>
+                  <th>Bitiş</th>
+                  <th>İzin Nedeni</th>
                   <th>Status</th>
                   {userType === 'admin' && <th>Actions</th>}
                 </tr>
@@ -171,14 +257,9 @@ const Outpass = ({ userType }) => {
                   <tr key={outpass.id}>
                     <td>{outpass.id}</td>
                     {userType === 'admin' && <td>{outpass.student_name}</td>}
+                    <td>{outpass.start_date}</td>
+                    <td>{outpass.end_date}</td>
                     <td>{outpass.reason}</td>
-                    <td>{outpass.destination}</td>
-                    <td>{outpass.out_date} {outpass.out_time}</td>
-                    <td>{outpass.expected_return_date} {outpass.expected_return_time}</td>
-                    <td>
-                      {outpass.emergency_contact}<br/>
-                      <small>{outpass.emergency_phone}</small>
-                    </td>
                     <td>
                       <span style={{ 
                         color: getStatusColor(outpass.status),
@@ -213,8 +294,8 @@ const Outpass = ({ userType }) => {
                 ))}
                 {outpasses.length === 0 && (
                   <tr>
-                    <td colSpan={userType === 'admin' ? "9" : "7"} style={{ textAlign: 'center', padding: '2rem' }}>
-                      No outpass requests found.
+                    <td colSpan={userType === 'admin' ? "7" : "5"} style={{ textAlign: 'center', padding: '2rem' }}>
+                      İzin talebi bulunamadı.
                     </td>
                   </tr>
                 )}
@@ -223,101 +304,6 @@ const Outpass = ({ userType }) => {
           </div>
         </div>
       </div>
-
-      {showModal && userType === 'student' && (
-        <div className="modal">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h2>Request New Outpass</h2>
-              <button className="close-btn" onClick={resetForm}>×</button>
-            </div>
-            <form onSubmit={handleSubmit}>
-              <div className="form-group">
-                <label>Reason for Leaving</label>
-                <select
-                  name="reason"
-                  value={formData.reason}
-                  onChange={handleChange}
-                  className="form-control"
-                  required
-                >
-                  <option value="">Select Reason</option>
-                  <option value="Medical appointment">Medical Appointment</option>
-                  <option value="Family visit">Family Visit</option>
-                  <option value="Personal work">Personal Work</option>
-                  <option value="Shopping">Shopping</option>
-                  <option value="Emergency">Emergency</option>
-                  <option value="Other">Other</option>
-                </select>
-              </div>
-              <div className="form-group">
-                <label>Destination</label>
-                <input
-                  type="text"
-                  name="destination"
-                  value={formData.destination}
-                  onChange={handleChange}
-                  className="form-control"
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label>Expected Return Date</label>
-                <input
-                  type="date"
-                  name="expected_return_date"
-                  value={formData.expected_return_date}
-                  onChange={handleChange}
-                  className="form-control"
-                  min={new Date().toISOString().split('T')[0]}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label>Expected Return Time</label>
-                <input
-                  type="time"
-                  name="expected_return_time"
-                  value={formData.expected_return_time}
-                  onChange={handleChange}
-                  className="form-control"
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label>Emergency Contact Name</label>
-                <input
-                  type="text"
-                  name="emergency_contact"
-                  value={formData.emergency_contact}
-                  onChange={handleChange}
-                  className="form-control"
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label>Emergency Contact Phone</label>
-                <input
-                  type="tel"
-                  name="emergency_phone"
-                  value={formData.emergency_phone}
-                  onChange={handleChange}
-                  className="form-control"
-                  required
-                />
-              </div>
-              <div style={{ display: 'flex', gap: '1rem', justifyContent: 'flex-end' }}>
-                <button type="button" className="btn btn-secondary" onClick={resetForm}>
-                  Cancel
-                </button>
-                <button type="submit" className="btn btn-success">
-                  Submit Request
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

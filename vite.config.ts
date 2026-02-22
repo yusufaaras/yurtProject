@@ -2,7 +2,6 @@ import path from "path"
 import react from "@vitejs/plugin-react"
 import { defineConfig } from "vite"
 
-// https://vite.dev/config/
 export default defineConfig({
   base: './',
   plugins: [react()],
@@ -15,7 +14,7 @@ export default defineConfig({
     port: 5173,
     proxy: {
       '/api': {
-        target: 'http://ankayurtlari.yusufaras.online',
+        target: 'http://localhost:3000',  
         changeOrigin: true,
       }
     }

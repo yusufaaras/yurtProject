@@ -1,18 +1,7 @@
 import axios from 'axios';
 
-// ✅ Ortama göre API URL belirle
-const getApiBaseUrl = () => {
-  // Development (lokal)
-  if (import.meta.env.MODE === 'development') {
-    return 'http://localhost:3000/api'; // Lokal backend
-  }
-  
-  // Production (cPanel)
-  return 'https://ankayurtlari.yusufaras.online/api'; // ← BURASI ÖNEMLİ!
-};
-
 const api = axios.create({
-  baseURL: getApiBaseUrl(),
+  baseURL: import.meta.env.VITE_API_URL,
   headers: {
     'Content-Type': 'application/json',
   },

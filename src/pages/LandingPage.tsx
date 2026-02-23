@@ -5,19 +5,23 @@ import MarketingHeader from '@/components/MarketingHeader'
 import {
   ArrowRight,
   BedDouble,
-  CheckCircle2,
+  BookOpen,
+  Bus,
+  Coffee,
   Clock,
   Facebook,
   Instagram,
   Mail,
   MapPin,
   Phone,
+  ShieldCheck,
   Shield,
   Sparkles,
   Twitter,
   UtensilsCrossed,
   Volume2,
   VolumeX,
+  WashingMachine,
   Wifi,
   Youtube,
 } from 'lucide-react'
@@ -27,14 +31,14 @@ export default function LandingPage() {
   const [aboutCardMuted, setAboutCardMuted] = useState(true)
 
   const services = [
-    '7/24 güvenlik ve resepsiyon',
-    'Sınırsız yüksek hızlı internet',
-    'Açık büfe sabah kahvaltısı',
-    'Günlük sıcak akşam yemeği',
-    'Haftalık oda temizliği',
-    'Çamaşır ve ütü odası',
-    'Etüt salonları ve dinlenme alanları',
-    'Merkezi ulaşım ve servis imkanı',
+    { label: '7/24 güvenlik ve resepsiyon', icon: ShieldCheck },
+    { label: 'Sınırsız yüksek hızlı internet', icon: Wifi },
+    { label: 'Açık büfe sabah kahvaltısı', icon: Coffee },
+    { label: 'Günlük sıcak akşam yemeği', icon: UtensilsCrossed },
+    { label: 'Haftalık oda temizliği', icon: Sparkles },
+    { label: 'Çamaşır ve ütü odası', icon: WashingMachine },
+    { label: 'Etüt salonları ve dinlenme alanları', icon: BookOpen },
+    { label: 'Merkezi ulaşım ve servis imkanı', icon: Bus },
   ]
 
   const roomCards = [
@@ -142,10 +146,10 @@ export default function LandingPage() {
 
           <div className="grid w-full max-w-md grid-cols-2 gap-4 text-[var(--brand-ink)]">
             {[
-              { label: 'Yıllık Tecrübe', value: '6+' },
-              { label: 'Toplam Kapasite', value: '350+' },
+              { label: 'Yıllık Tecrübe', value: '7+' },
+              { label: 'Toplam Kapasite', value: '750+' },
               { label: 'Etüt Salonu', value: '3' },
-              { label: 'Ulaşım Noktası', value: '7 dk' },
+              { label: 'Üniversiteye Ulaşım', value: '9' },
             ].map((item) => (
               <div key={item.label} className="rounded-2xl border border-black/10 bg-white/70 p-4 backdrop-blur">
                 <div className="text-2xl font-semibold">{item.value}</div>
@@ -267,9 +271,9 @@ export default function LandingPage() {
             <h3 className="mb-6 font-['Playfair_Display'] text-2xl font-semibold">Hizmet Listesi</h3>
             <div className="grid gap-4 text-sm text-[var(--brand-ink)]/80">
               {services.map((service) => (
-                <div key={service} className="flex items-center gap-3">
-                  <CheckCircle2 className="h-5 w-5 text-[var(--brand-olive)]" />
-                  <span>{service}</span>
+                <div key={service.label} className="flex items-center gap-3">
+                  <service.icon className="h-5 w-5 text-[var(--brand-olive)]" />
+                  <span>{service.label}</span>
                 </div>
               ))}
             </div>

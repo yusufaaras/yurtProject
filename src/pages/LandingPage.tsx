@@ -403,8 +403,10 @@ export default function LandingPage() {
               0501 001 4043
             </a>
             <a
-              href="#iletisim"
-              className="rounded-full border border-[var(--brand-cream)]/40 px-6 py-3 text-sm font-semibold text-[var(--brand-cream)]"
+              href="https://wa.me/905010014043"
+              target="_blank"
+              rel="noreferrer"
+              className="rounded-full border border-[#25D366] bg-[#25D366] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#20bd5a]"
             >
               WhatsApp ile Yazın
             </a>

@@ -160,8 +160,8 @@ export const dorms: Dorm[] = [
   },
   {
     slug: 'ankayurt',
-    name: 'Ankayurt',
-    type: 'Yeni Yurt (Görseller Yakında)',
+    name: 'Anka Anadolu Kız ve Erkek Öğrenci Yurdu',
+    type: 'Kız ve Erkek Öğrenci Yurdu',
     image: null,
     roomSections: [],
   },

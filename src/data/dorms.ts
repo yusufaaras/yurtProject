@@ -84,6 +84,20 @@ const beyraQuadRoomImages: string[] = [
   '/ankayurtlari/dorms/beyra/4_kisilik_9.jpg',
 ]
 
+const beyzaRoomImages: string[] = [
+  '/ankayurtlari/dorms/beyza/beyza-tek-kisilik-1.jpg',
+  '/ankayurtlari/dorms/beyza/beyza-tek-kisilik-2.jpg',
+  '/ankayurtlari/dorms/beyza/beyza-tek-kisilik-3.jpg',
+  '/ankayurtlari/dorms/beyza/beyza-tek-kisilik-4.jpg',
+  '/ankayurtlari/dorms/beyza/beyza-tek-kisilik-5.jpg',
+  '/ankayurtlari/dorms/beyza/beyza-tek-kisilik-6.jpg',
+  '/ankayurtlari/dorms/beyza/beyza-tek-kisilik-7.jpg',
+  '/ankayurtlari/dorms/beyza/beyza-tek-kisilik-8.jpg',
+  '/ankayurtlari/dorms/beyza/beyza-tek-kisilik-9.jpg',
+  '/ankayurtlari/dorms/beyza/beyza-tek-kisilik-10.jpg',
+  '/ankayurtlari/dorms/beyza/beyza-tek-kisilik-11.jpg',
+]
+
 export const dorms: Dorm[] = [
   {
     slug: 'beyzade-erkek-ogrenci-yurdu',
@@ -130,8 +144,19 @@ export const dorms: Dorm[] = [
     slug: 'beyza-kiz-yurdu',
     name: 'Beyza Kız Yurdu',
     type: 'Kız Öğrenci Yurdu',
-    image: '/ankayurtlari/rooms/double-1.jpg',
-    roomSections: [],
+    image: '/ankayurtlari/dorms/beyza/beyza-tek-kisilik-1.jpg',
+    roomSections: [
+      {
+        title: 'Tek Kişilik Odalar',
+        description: 'Beyza Kız Yurdu tek kişilik oda seçenekleri.',
+        images: beyzaRoomImages,
+      },
+      {
+        title: 'Çift Kişilik Odalar',
+        description: 'Beyza Kız Yurdu çift kişilik oda seçenekleri.',
+        images: beyzaRoomImages,
+      },
+    ],
   },
   {
     slug: 'ankayurt',

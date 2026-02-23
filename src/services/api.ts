@@ -28,9 +28,16 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
+      const requestUrl = error.config?.url || '';
+      const isLoginRequest = requestUrl.includes('/auth/login');
+
       localStorage.removeItem('token');
       localStorage.removeItem('user');
-      window.location.href = '/login';
+
+      // Avoid hard redirect loop for failed login attempts.
+      if (!isLoginRequest && window.location.pathname !== '/login') {
+        window.location.href = '/login';
+      }
     }
     return Promise.reject(error);
   }

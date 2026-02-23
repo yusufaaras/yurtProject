@@ -77,6 +77,29 @@ export default function LandingPage() {
   )
   const [heroIndex, setHeroIndex] = useState(0)
 
+  const dorms = [
+    {
+      name: 'Beyzade Erkek Öğrenci Yurdu',
+      type: 'Erkek Öğrenci Yurdu',
+      image: '/ankayurtlari/sections/beyzade.png',
+    },
+    {
+      name: 'Beyra Kız Öğrenci Yurdu',
+      type: 'Kız Öğrenci Yurdu',
+      image: '/ankayurtlari/rooms/single-1.jpg',
+    },
+    {
+      name: 'Beyza Kız Yurdu',
+      type: 'Kız Öğrenci Yurdu',
+      image: '/ankayurtlari/rooms/double-1.jpg',
+    },
+    {
+      name: 'Ankayurt',
+      type: 'Yeni Yurt (Görseller Yakında)',
+      image: null,
+    },
+  ]
+
   useEffect(() => {
     const id = window.setInterval(() => {
       setHeroIndex((prev) => (prev + 1) % heroImages.length)
@@ -90,6 +113,7 @@ export default function LandingPage() {
         links={[
           { label: 'Ana Sayfa', href: '/' },
           { label: 'Hakkımızda', href: '/hakkimizda' },
+          { label: 'Yurtlarımız', href: '#yurtlarimiz' },
           { label: 'Odalar', href: '/odalar' }, 
           { label: 'İletişim', href: '#iletisim' },
         ]}
@@ -194,6 +218,45 @@ export default function LandingPage() {
               <p className="text-sm text-[var(--brand-ink)]/70">{item.desc}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      <section id="yurtlarimiz" className="bg-white">
+        <div className="mx-auto max-w-7xl px-4 py-20">
+          <div className="flex flex-col gap-4">
+            <p className="text-xs uppercase tracking-[0.3em] text-[var(--brand-olive)]">Yurtlarımız</p>
+            <h2 className="font-['Playfair_Display'] text-3xl font-semibold text-[var(--brand-ink)]">
+              Ankara’daki Yurtlarımız
+            </h2>
+          </div>
+          <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            {dorms.map((dorm) => (
+              <div
+                key={dorm.name}
+                className="overflow-hidden rounded-3xl border border-black/10 bg-[var(--brand-cream)]"
+              >
+                {dorm.image ? (
+                  <img
+                    src={dorm.image}
+                    alt={dorm.name}
+                    className="h-44 w-full object-cover"
+                  />
+                ) : (
+                  <div className="flex h-44 items-center justify-center bg-[var(--brand-sand)] text-sm font-semibold text-[var(--brand-olive)]">
+                    Görseller Yakında
+                  </div>
+                )}
+                <div className="p-5">
+                  <h3 className="font-['Playfair_Display'] text-lg font-semibold text-[var(--brand-ink)]">
+                    {dorm.name}
+                  </h3>
+                  <p className="mt-2 text-xs uppercase tracking-[0.2em] text-[var(--brand-olive)]">
+                    {dorm.type}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

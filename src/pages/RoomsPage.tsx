@@ -179,6 +179,7 @@ export default function RoomsPage() {
         links={[
           { label: 'Ana Sayfa', href: '/' },
           { label: 'Hakkımızda', href: '/hakkimizda' },
+          { label: 'Yurtlarımız', href: '/#yurtlarimiz' },
           { label: 'Odalar', href: '/odalar' }, 
           { label: 'İletişim', href: '/#iletisim' },
         ]}

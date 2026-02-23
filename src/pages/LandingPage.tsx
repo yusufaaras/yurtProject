@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import MarketingHeader from '@/components/MarketingHeader'
+import { dorms } from '@/data/dorms'
 import {
   ArrowRight,
   BedDouble,
@@ -77,29 +78,6 @@ export default function LandingPage() {
   )
   const [heroIndex, setHeroIndex] = useState(0)
 
-  const dorms = [
-    {
-      name: 'Beyzade Erkek Öğrenci Yurdu',
-      type: 'Erkek Öğrenci Yurdu',
-      image: '/ankayurtlari/sections/beyzade.png',
-    },
-    {
-      name: 'Beyra Kız Öğrenci Yurdu',
-      type: 'Kız Öğrenci Yurdu',
-      image: '/ankayurtlari/rooms/single-1.jpg',
-    },
-    {
-      name: 'Beyza Kız Yurdu',
-      type: 'Kız Öğrenci Yurdu',
-      image: '/ankayurtlari/rooms/double-1.jpg',
-    },
-    {
-      name: 'Ankayurt',
-      type: 'Yeni Yurt (Görseller Yakında)',
-      image: null,
-    },
-  ]
-
   useEffect(() => {
     const id = window.setInterval(() => {
       setHeroIndex((prev) => (prev + 1) % heroImages.length)
@@ -172,7 +150,7 @@ export default function LandingPage() {
             {[
               { label: 'Yıllık Tecrübe', value: '7+' },
               { label: 'Toplam Kapasite', value: '750+' },
-              { label: 'Etüt Salonu', value: '3' },
+              { label: 'Yurt Binası', value: '5' },
               { label: 'Üniversiteye Ulaşım', value: '9' },
             ].map((item) => (
               <div key={item.label} className="rounded-2xl border border-black/10 bg-white/70 p-4 backdrop-blur">
@@ -231,9 +209,10 @@ export default function LandingPage() {
           </div>
           <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {dorms.map((dorm) => (
-              <div
+              <Link
                 key={dorm.name}
-                className="overflow-hidden rounded-3xl border border-black/10 bg-[var(--brand-cream)]"
+                to={`/yurtlar/${dorm.slug}`}
+                className="overflow-hidden rounded-3xl border border-black/10 bg-[var(--brand-cream)] transition hover:-translate-y-1 hover:shadow-lg"
               >
                 {dorm.image ? (
                   <img
@@ -254,7 +233,7 @@ export default function LandingPage() {
                     {dorm.type}
                   </p>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

@@ -12,6 +12,7 @@ import TalepYonetim from './pages/TalepYonetim'
 import LandingPage from './pages/LandingPage'
 import AboutPage from './pages/AboutPage'
 import RoomsPage from './pages/RoomsPage'
+import DormDetailPage from './pages/DormDetailPage'
 import ScrollToTop from './components/ScrollToTop'
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/hakkimizda" element={<AboutPage />} />
           <Route path="/odalar" element={<RoomsPage />} />
+          <Route path="/yurtlar/:slug" element={<DormDetailPage />} />
           <Route 
             path="/yurt" 
             element={

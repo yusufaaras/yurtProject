@@ -12,6 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { 
   LogOut, 
@@ -28,7 +29,8 @@ import {
   MessageSquare,
   UserPlus,
   Trash2,
-  Pencil
+  Pencil,
+  Menu
 } from 'lucide-react';
 import { formatDate } from '@/lib/utils';
 
@@ -49,6 +51,7 @@ export default function MudurPanel() {
   const { showToast } = useToast();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [users, setUsers] = useState<User[]>([]);
@@ -437,6 +440,15 @@ export default function MudurPanel() {
     const matchesDurum = talepDurumFilter === 'all' || sikayet.durum === talepDurumFilter;
     return matchesDurum;
   });
+  const mobileTabs = [
+    { value: 'dashboard', label: 'Dashboard' },
+    { value: 'ogrenciler', label: 'Öğrenciler' },
+    { value: 'izinler', label: 'İzinler' },
+    { value: 'sikayetler', label: 'Talepler' },
+    { value: 'yemek', label: 'Yemek' },
+    { value: 'servis', label: 'Servis' },
+    { value: 'yeni-ogrenci', label: 'Yeni Öğrenci' },
+  ];
 
   return (
     <div className="min-h-screen bg-[var(--brand-cream)] text-[var(--brand-ink)]">
@@ -459,6 +471,50 @@ export default function MudurPanel() {
               </div>
               <div className="text-sm font-medium text-[var(--brand-ink)]">{user?.ad} {user?.soyad}</div>
             </div>
+            <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+              <SheetTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="lg:hidden rounded-full border border-[var(--brand-olive)]/40 bg-white/80 text-[var(--brand-ink)] hover:bg-[var(--brand-sand)]"
+                  aria-label="Menüyü Aç"
+                >
+                  <Menu className="w-4 h-4" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="bg-[var(--brand-cream)] text-[var(--brand-ink)]">
+                <SheetHeader>
+                  <SheetTitle>Müdür Menüsü</SheetTitle>
+                </SheetHeader>
+                <div className="mt-4 flex flex-col gap-2 px-4 pb-6">
+                  {mobileTabs.map((tab) => (
+                    <Button
+                      key={tab.value}
+                      variant={activeTab === tab.value ? 'default' : 'outline'}
+                      className="justify-start rounded-xl"
+                      onClick={() => {
+                        setActiveTab(tab.value);
+                        setMobileMenuOpen(false);
+                      }}
+                    >
+                      {tab.label}
+                    </Button>
+                  ))}
+                  <Button
+                    variant="outline"
+                    className="mt-2 justify-start rounded-xl border-[var(--brand-olive)]/40 bg-white/80"
+                    onClick={() => {
+                      logout();
+                      navigate('/');
+                      setMobileMenuOpen(false);
+                    }}
+                  >
+                    <LogOut className="w-4 h-4 mr-2" />
+                    Çıkış Yap
+                  </Button>
+                </div>
+              </SheetContent>
+            </Sheet>
             <Button
               variant="outline"
               size="sm"

@@ -1,6 +1,8 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
-import { Mail, MapPin, Phone } from 'lucide-react'
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
+import { Mail, MapPin, Menu, Phone } from 'lucide-react'
 
 type NavItem = {
   label: string
@@ -40,6 +42,8 @@ export default function MarketingHeader({
   logoSrc = '/ankayurtlari/logo.png',
   links,
 }: MarketingHeaderProps) {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
   return (
     <header className="sticky top-0 z-50 border-b border-black/10 bg-[var(--brand-cream)]">
       <div className="bg-[var(--brand-ink)] text-[var(--brand-cream)]">
@@ -94,9 +98,54 @@ export default function MarketingHeader({
         </nav>
 
         <div className="flex items-center gap-3">
-          <Button asChild className="rounded-full bg-[var(--brand-olive)] px-5 py-2 text-[var(--brand-cream)] hover:bg-[#2f3a2c]">
+          <Button
+            asChild
+            className="hidden rounded-full bg-[var(--brand-olive)] px-5 py-2 text-[var(--brand-cream)] hover:bg-[#2f3a2c] lg:inline-flex"
+          >
             <Link to="/login">Giriş Yap</Link>
           </Button>
+
+          <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+            <SheetTrigger asChild>
+              <Button
+                size="icon"
+                variant="ghost"
+                className="text-[var(--brand-ink)] hover:bg-[var(--brand-sand)] lg:hidden"
+                aria-label="Menüyü Aç"
+              >
+                <Menu className="h-5 w-5" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="bg-[var(--brand-cream)] text-[var(--brand-ink)]">
+              <SheetHeader>
+                <SheetTitle>{brandLabel}</SheetTitle>
+              </SheetHeader>
+              <div className="mt-4 flex flex-col gap-2 px-4 pb-6">
+                {links.map((link) => (
+                  <Button
+                    key={link.label}
+                    variant="outline"
+                    className="justify-start rounded-xl border-black/10 bg-white/80"
+                    onClick={() => setMobileMenuOpen(false)}
+                    asChild
+                  >
+                    {link.href.startsWith('/') ? (
+                      <Link to={link.href}>{link.label}</Link>
+                    ) : (
+                      <a href={link.href}>{link.label}</a>
+                    )}
+                  </Button>
+                ))}
+                <Button
+                  className="mt-2 rounded-xl bg-[var(--brand-olive)] text-[var(--brand-cream)] hover:bg-[#2f3a2c]"
+                  onClick={() => setMobileMenuOpen(false)}
+                  asChild
+                >
+                  <Link to="/login">Giriş Yap</Link>
+                </Button>
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
     </header>

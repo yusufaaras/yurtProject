@@ -13,6 +13,7 @@ import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { 
   LogOut, 
   Calendar, 
@@ -27,7 +28,8 @@ import {
   Clock3,
   MessageSquare,
   AlertCircle,
-  Lightbulb
+  Lightbulb,
+  Menu
 } from 'lucide-react';
 import { formatDate } from '@/lib/utils';
 
@@ -36,6 +38,7 @@ export default function OgrenciPanel() {
   const { showToast } = useToast();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('yemek');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
   const [izinForm, setIzinForm] = useState({
     baslangic_tarihi: '',
@@ -209,6 +212,13 @@ export default function OgrenciPanel() {
   };
 
   const userInitials = `${user?.ad?.[0] ?? ''}${user?.soyad?.[0] ?? ''}`.toUpperCase();
+  const mobileTabs = [
+    { value: 'yemek', label: 'Yemek Listesi' },
+    { value: 'izin', label: 'İzin Talebi' },
+    { value: 'izinlerim', label: 'İzinlerim' },
+    { value: 'sikayet', label: 'Şikayet / İstek' },
+    { value: 'taleplerim', label: 'Taleplerim' },
+  ];
 
   return (
     <div className="min-h-screen bg-[var(--brand-cream)] text-[var(--brand-ink)]">
@@ -234,6 +244,50 @@ export default function OgrenciPanel() {
                 {userInitials || 'U'}
               </AvatarFallback>
             </Avatar>
+            <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+              <SheetTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="lg:hidden border border-[var(--brand-olive)]/40 text-[var(--brand-ink)] hover:bg-[var(--brand-sand)]"
+                  aria-label="Menüyü Aç"
+                >
+                  <Menu className="w-4 h-4" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="bg-[var(--brand-cream)] text-[var(--brand-ink)]">
+                <SheetHeader>
+                  <SheetTitle>Öğrenci Menüsü</SheetTitle>
+                </SheetHeader>
+                <div className="mt-4 flex flex-col gap-2 px-4 pb-6">
+                  {mobileTabs.map((tab) => (
+                    <Button
+                      key={tab.value}
+                      variant={activeTab === tab.value ? 'default' : 'outline'}
+                      className="justify-start rounded-xl"
+                      onClick={() => {
+                        setActiveTab(tab.value);
+                        setMobileMenuOpen(false);
+                      }}
+                    >
+                      {tab.label}
+                    </Button>
+                  ))}
+                  <Button
+                    variant="outline"
+                    className="mt-2 justify-start rounded-xl border-[var(--brand-olive)]/40 bg-white/80"
+                    onClick={() => {
+                      logout();
+                      navigate('/');
+                      setMobileMenuOpen(false);
+                    }}
+                  >
+                    <LogOut className="w-4 h-4 mr-2" />
+                    Çıkış Yap
+                  </Button>
+                </div>
+              </SheetContent>
+            </Sheet>
             <Button
               variant="outline"
               size="sm"

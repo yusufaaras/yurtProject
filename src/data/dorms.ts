@@ -48,27 +48,40 @@ const beyzadeDoubleRoomImages: string[] = [
 ]
 
 const beyraSingleRoomImages: string[] = [
-  '/ankayurtlari/dorms/beyra/tek-kisilik-1.jpg',
-  '/ankayurtlari/dorms/beyra/tek-kisilik-2.jpg',
-  '/ankayurtlari/dorms/beyra/tek-kisilik-3.jpg',
-  '/ankayurtlari/dorms/beyra/tek-kisilik-4.jpg',
-  '/ankayurtlari/dorms/beyra/tek-kisilik-5.jpg',
-  '/ankayurtlari/dorms/beyra/tek-kisilik-6.jpg',
-  '/ankayurtlari/dorms/beyra/tek-kisilik-7.jpg',
-  '/ankayurtlari/dorms/beyra/tek-kisilik-8.jpg',
-  '/ankayurtlari/dorms/beyra/tek-kisilik-9.jpg',
+  '/ankayurtlari/dorms/beyra/tek-kisilik-1.png',
+  '/ankayurtlari/dorms/beyra/tek-kisilik-2.png',
+  '/ankayurtlari/dorms/beyra/tek-kisilik-3.png',
+  '/ankayurtlari/dorms/beyra/tek-kisilik-4.png',
+  '/ankayurtlari/dorms/beyra/tek-kisilik-5.png',
+  '/ankayurtlari/dorms/beyra/tek-kisilik-6.png',
+  '/ankayurtlari/dorms/beyra/tek-kisilik-7.png',
+  '/ankayurtlari/dorms/beyra/tek-kisilik-8.png',
+  '/ankayurtlari/dorms/beyra/tek-kisilik-9.png',
 ]
 
 const beyraDoubleRoomImages: string[] = [
-  '/ankayurtlari/dorms/beyra/cift-kisilik-1.jpg',
-  '/ankayurtlari/dorms/beyra/cift-kisilik-2.jpg',
-  '/ankayurtlari/dorms/beyra/cift-kisilik-3.jpg',
-  '/ankayurtlari/dorms/beyra/cift-kisilik-4.jpg',
-  '/ankayurtlari/dorms/beyra/cift-kisilik-5.jpg',
-  '/ankayurtlari/dorms/beyra/cift-kisilik-6.jpg',
-  '/ankayurtlari/dorms/beyra/cift-kisilik-7.jpg',
-  '/ankayurtlari/dorms/beyra/cift-kisilik-8.jpg',
-  '/ankayurtlari/dorms/beyra/cift-kisilik-9.jpg',
+  '/ankayurtlari/dorms/beyra/cift-kisilik-1.png',
+  '/ankayurtlari/dorms/beyra/cift-kisilik-2.png',
+  '/ankayurtlari/dorms/beyra/cift-kisilik-3.png',
+  '/ankayurtlari/dorms/beyra/cift-kisilik-4.png',
+  '/ankayurtlari/dorms/beyra/cift-kisilik-5.png',
+  '/ankayurtlari/dorms/beyra/cift-kisilik-6.png',
+  '/ankayurtlari/dorms/beyra/cift-kisilik-7.png',
+  '/ankayurtlari/dorms/beyra/cift-kisilik-8.png',
+  '/ankayurtlari/dorms/beyra/cift-kisilik-9.png',
+  '/ankayurtlari/dorms/beyra/cift-kisilik-10.png',
+]
+
+const beyraQuadRoomImages: string[] = [
+  '/ankayurtlari/dorms/beyra/4_kisilik-1.jpg',
+  '/ankayurtlari/dorms/beyra/4-kisilik-2.jpg',
+  '/ankayurtlari/dorms/beyra/4-kisilik-3.jpg',
+  '/ankayurtlari/dorms/beyra/4-kisilik-4.jpg',
+  '/ankayurtlari/dorms/beyra/4_kisilik_5.jpg',
+  '/ankayurtlari/dorms/beyra/4-kisilik-6.jpg',
+  '/ankayurtlari/dorms/beyra/4_kisilik_7.jpg',
+  '/ankayurtlari/dorms/beyra/4_kisilik_8.jpg',
+  '/ankayurtlari/dorms/beyra/4_kisilik_9.jpg',
 ]
 
 export const dorms: Dorm[] = [
@@ -94,7 +107,7 @@ export const dorms: Dorm[] = [
     slug: 'beyra-kiz-ogrenci-yurdu',
     name: 'Beyra Kız Öğrenci Yurdu',
     type: 'Kız Öğrenci Yurdu',
-    image: '/ankayurtlari/dorms/beyra/dis-cephe.jpg',
+    image: '/ankayurtlari/dorms/beyra/dis-cephe.png',
     roomSections: [
       {
         title: 'Tek Kişilik Odalar',
@@ -105,6 +118,11 @@ export const dorms: Dorm[] = [
         title: 'Çift Kişilik Odalar',
         description: 'Beyra Kız Öğrenci Yurdu çift kişilik oda seçenekleri.',
         images: beyraDoubleRoomImages,
+      },
+      {
+        title: '4 Kişilik Odalar',
+        description: 'Beyra Kız Öğrenci Yurdu 4 kişilik oda seçenekleri.',
+        images: beyraQuadRoomImages,
       },
     ],
   },

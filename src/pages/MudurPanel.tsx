@@ -533,32 +533,32 @@ export default function MudurPanel() {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2 gap-2 lg:grid-cols-7 lg:w-auto rounded-2xl bg-white/90 shadow-sm border border-black/10 p-2">
-            <TabsTrigger value="dashboard" className="flex items-center gap-2 rounded-xl data-[state=active]:bg-[var(--brand-olive)] data-[state=active]:text-[var(--brand-cream)]">
+          <TabsList className="grid h-auto w-full grid-cols-2 gap-2 rounded-2xl border border-black/10 bg-white/90 p-2 shadow-sm sm:grid-cols-4 lg:w-auto lg:grid-cols-7">
+            <TabsTrigger value="dashboard" className="flex w-full items-center justify-center gap-2 rounded-xl px-2 py-2 data-[state=active]:bg-[var(--brand-olive)] data-[state=active]:text-[var(--brand-cream)]">
               <TrendingUp className="w-4 h-4" />
               <span className="hidden sm:inline">Dashboard</span>
             </TabsTrigger>
-            <TabsTrigger value="ogrenciler" className="flex items-center gap-2 rounded-xl data-[state=active]:bg-[var(--brand-olive)] data-[state=active]:text-[var(--brand-cream)]">
+            <TabsTrigger value="ogrenciler" className="flex w-full items-center justify-center gap-2 rounded-xl px-2 py-2 data-[state=active]:bg-[var(--brand-olive)] data-[state=active]:text-[var(--brand-cream)]">
               <Users className="w-4 h-4" />
               <span className="hidden sm:inline">Öğrenciler</span>
             </TabsTrigger>
-            <TabsTrigger value="izinler" className="flex items-center gap-2 rounded-xl data-[state=active]:bg-[var(--brand-olive)] data-[state=active]:text-[var(--brand-cream)]">
+            <TabsTrigger value="izinler" className="flex w-full items-center justify-center gap-2 rounded-xl px-2 py-2 data-[state=active]:bg-[var(--brand-olive)] data-[state=active]:text-[var(--brand-cream)]">
               <FileCheck className="w-4 h-4" />
               <span className="hidden sm:inline">İzinler</span>
             </TabsTrigger>
-            <TabsTrigger value="sikayetler" className="flex items-center gap-2 rounded-xl data-[state=active]:bg-[var(--brand-olive)] data-[state=active]:text-[var(--brand-cream)]">
+            <TabsTrigger value="sikayetler" className="flex w-full items-center justify-center gap-2 rounded-xl px-2 py-2 data-[state=active]:bg-[var(--brand-olive)] data-[state=active]:text-[var(--brand-cream)]">
               <MessageSquare className="w-4 h-4" />
               <span className="hidden sm:inline">Talepler</span>
             </TabsTrigger>
-            <TabsTrigger value="yemek" className="flex items-center gap-2 rounded-xl data-[state=active]:bg-[var(--brand-olive)] data-[state=active]:text-[var(--brand-cream)]">
+            <TabsTrigger value="yemek" className="flex w-full items-center justify-center gap-2 rounded-xl px-2 py-2 data-[state=active]:bg-[var(--brand-olive)] data-[state=active]:text-[var(--brand-cream)]">
               <Utensils className="w-4 h-4" />
               <span className="hidden sm:inline">Yemek</span>
             </TabsTrigger>
-            <TabsTrigger value="servis" className="flex items-center gap-2 rounded-xl data-[state=active]:bg-[var(--brand-olive)] data-[state=active]:text-[var(--brand-cream)]">
+            <TabsTrigger value="servis" className="flex w-full items-center justify-center gap-2 rounded-xl px-2 py-2 data-[state=active]:bg-[var(--brand-olive)] data-[state=active]:text-[var(--brand-cream)]">
               <Clock className="w-4 h-4" />
               <span className="hidden sm:inline">Servis</span>
             </TabsTrigger>
-            <TabsTrigger value="yeni-ogrenci" className="flex items-center gap-2 rounded-xl data-[state=active]:bg-[var(--brand-olive)] data-[state=active]:text-[var(--brand-cream)]">
+            <TabsTrigger value="yeni-ogrenci" className="flex w-full items-center justify-center gap-2 rounded-xl px-2 py-2 data-[state=active]:bg-[var(--brand-olive)] data-[state=active]:text-[var(--brand-cream)]">
               <UserPlus className="w-4 h-4" />
               <span className="hidden sm:inline">Yeni Öğrenci</span>
             </TabsTrigger>

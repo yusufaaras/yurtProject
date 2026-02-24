@@ -14,10 +14,10 @@ import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import {
-  LogOut,
-  Users,
-  Calendar,
+import { 
+  LogOut, 
+  Users, 
+  Calendar, 
   Utensils,
   Home,
   Plus,
@@ -52,20 +52,20 @@ export default function MudurPanel() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('dashboard');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
+  
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [users, setUsers] = useState<User[]>([]);
   const [izinler, setIzinler] = useState<IzinTalebi[]>([]);
   const [sikayetler, setSikayetler] = useState<SikayetIstek[]>([]);
   const [loading, setLoading] = useState(false);
-
+  
   const [newYemek, setNewYemek] = useState({
     tarihBaslangic: '',
     tarihBitis: '',
     kahvaltiDosya: null as File | null,
     aksamDosya: null as File | null
   });
-
+  
   const [newUser, setNewUser] = useState({
     tc_no: '',
     sifre: '',
@@ -78,7 +78,7 @@ export default function MudurPanel() {
   const [izinTcFilter, setIzinTcFilter] = useState('');
   const [izinDurumFilter, setIzinDurumFilter] = useState<'all' | 'beklemede' | 'onaylandi' | 'reddedildi'>('all');
   const [talepDurumFilter, setTalepDurumFilter] = useState<'all' | 'beklemede' | 'inceleniyor' | 'cozuldu' | 'reddedildi'>('all');
-
+  
   const [adminNotu, setAdminNotu] = useState('');
   const [servisForm, setServisForm] = useState({
     sabahSaatler: '07:00, 07:30, 08:00',
@@ -246,14 +246,14 @@ export default function MudurPanel() {
 
   const handleAddYemek = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    
     if (!newYemek.tarihBaslangic || !newYemek.tarihBitis) {
       showToast('Lütfen tarih aralığını seçin!', 'error');
       return;
     }
 
     setLoading(true);
-
+    
     try {
       const start = new Date(newYemek.tarihBaslangic);
       const end = new Date(newYemek.tarihBitis);
@@ -308,7 +308,7 @@ export default function MudurPanel() {
 
   const handleCreateUser = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    
     if (!newUser.tc_no || !newUser.sifre || !newUser.ad || !newUser.soyad || !newUser.aile_telefon) {
       showToast('Lütfen zorunlu alanları doldurun!', 'error');
       return;
@@ -320,7 +320,7 @@ export default function MudurPanel() {
     }
 
     setLoading(true);
-
+    
     try {
       await api.post('/admin/kullanici-olustur', { ...newUser, rol: 'ogrenci' });
       showToast('Öğrenci başarıyla oluşturuldu!', 'success');
@@ -410,22 +410,17 @@ export default function MudurPanel() {
   };
 
   const getDurumBadge = (durum: string) => {
-    // switch (durum) {
-    //   case 'onaylandi':
-    //   case 'cozuldu':
-    //     return <Badge variant="success" className="flex items-center gap-1"><CheckCircle className="w-3 h-3" /> Onaylandı</Badge>;
-    //   case 'reddedildi':
-    //     return <Badge variant="destructive" className="flex items-center gap-1"><XCircle className="w-3 h-3" /> Reddedildi</Badge>;
-    //   case 'inceleniyor':
-    //     return <Badge variant="default" className="flex items-center gap-1"><Clock className="w-3 h-3" /> İnceleniyor</Badge>;
-    //   default:
-    //     return <Badge variant="warning" className="flex items-center gap-1"><Clock className="w-3 h-3" /> Beklemede</Badge>;
-    // }
-    return (
-      <Badge variant="success" className="flex items-center gap-1">
-        <CheckCircle className="w-3 h-3" /> Onaylandı
-      </Badge>
-    );
+    switch (durum) {
+      case 'onaylandi':
+      case 'cozuldu':
+        return <Badge variant="success" className="flex items-center gap-1"><CheckCircle className="w-3 h-3" /> Onaylandı</Badge>;
+      case 'reddedildi':
+        return <Badge variant="destructive" className="flex items-center gap-1"><XCircle className="w-3 h-3" /> Reddedildi</Badge>;
+      case 'inceleniyor':
+        return <Badge variant="default" className="flex items-center gap-1"><Clock className="w-3 h-3" /> İnceleniyor</Badge>;
+      default:
+        return <Badge variant="warning" className="flex items-center gap-1"><Clock className="w-3 h-3" /> Beklemede</Badge>;
+    }
   };
 
 
@@ -468,7 +463,7 @@ export default function MudurPanel() {
               <p className="text-sm text-[var(--brand-ink)]/60">Müdür Paneli - {user?.yurt_adi}</p>
             </div>
           </div>
-
+          
           <div className="flex items-center gap-3">
             <div className="hidden sm:flex items-center gap-2 rounded-full border border-black/10 bg-white/80 px-3 py-1.5">
               <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--brand-olive)] text-[var(--brand-cream)] text-xs font-semibold">
@@ -579,7 +574,7 @@ export default function MudurPanel() {
                   <div className="text-2xl font-bold">{stats?.ogrenci_sayisi || 0}</div>
                 </CardContent>
               </Card>
-
+              
               <Card className="rounded-3xl border border-black/10 bg-white/90 shadow-sm">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Bekleyen İzinler</CardTitle>
@@ -589,7 +584,7 @@ export default function MudurPanel() {
                   <div className="text-2xl font-bold">{stats?.bekleyen_izinler || 0}</div>
                 </CardContent>
               </Card>
-
+              
               <Card className="rounded-3xl border border-black/10 bg-white/90 shadow-sm">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Toplam İzinler</CardTitle>
@@ -599,7 +594,7 @@ export default function MudurPanel() {
                   <div className="text-2xl font-bold">{stats?.toplam_izinler || 0}</div>
                 </CardContent>
               </Card>
-
+              
               <Card className="rounded-3xl border border-black/10 bg-white/90 shadow-sm">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Bugünkü İzinler</CardTitle>
@@ -805,7 +800,7 @@ export default function MudurPanel() {
                             Gidilecek Yer: {izin.gidilecek_yer}
                           </p>
                         </div>
-                        {/* <div className="flex flex-col items-end gap-2">
+                        <div className="flex flex-col items-end gap-2">
                           {getDurumBadge(izin.durum)}
                           {izin.durum === 'beklemede' && (
                             <div className="flex items-center gap-2">
@@ -827,15 +822,9 @@ export default function MudurPanel() {
                               </Button>
                             </div>
                           )}
-                        </div> */}
-                        <div className="flex flex-col items-end gap-2">
-                          {getDurumBadge('onaylandi')} {/* Parametreyi manuel 'onaylandi' geçiyoruz */}
-
-                          {/* Eğer beklemedeyse onay/red butonları görünmesin istiyorsan aşağıdaki koşulu silebilirsin */}
-                          {/* izin.durum === 'beklemede' && (...) kısmını kaldırabilirsin */}
                         </div>
                       </div>
-
+                      
                       {izin.admin_notu && (
                         <div className="mt-3 p-3 bg-gray-50 rounded text-sm">
                           <span className="font-medium">Not:</span> {izin.admin_notu}
@@ -887,9 +876,9 @@ export default function MudurPanel() {
                         </div>
                         {getDurumBadge(sikayet.durum)}
                       </div>
-
+                      
                       <p className="text-sm text-gray-600 mb-3">{sikayet.mesaj}</p>
-
+                      
                       {(sikayet.durum === 'beklemede' || sikayet.durum === 'inceleniyor') && (
                         <Dialog>
                           <DialogTrigger asChild>
@@ -900,7 +889,7 @@ export default function MudurPanel() {
                               <DialogTitle>Talep İşlem</DialogTitle>
                               <DialogDescription>{sikayet.konu}</DialogDescription>
                             </DialogHeader>
-
+                            
                             <div className="space-y-4 py-4">
                               <div className="space-y-2">
                                 <Label>Yanıt (Opsiyonel)</Label>
@@ -911,10 +900,10 @@ export default function MudurPanel() {
                                 />
                               </div>
                             </div>
-
+                            
                             <DialogFooter>
                               {sikayet.durum === 'beklemede' && (
-                                <Button
+                                <Button 
                                   variant="default"
                                   onClick={() => handleUpdateSikayetDurumu(sikayet.id!, 'inceleniyor')}
                                 >
@@ -924,14 +913,14 @@ export default function MudurPanel() {
                               )}
                               {sikayet.durum === 'inceleniyor' && (
                                 <>
-                                  <Button
-                                    variant="destructive"
+                                  <Button 
+                                    variant="destructive" 
                                     onClick={() => handleUpdateSikayetDurumu(sikayet.id!, 'reddedildi')}
                                   >
                                     <XCircle className="w-4 h-4 mr-2" />
                                     Çözülemedi
                                   </Button>
-                                  <Button
+                                  <Button 
                                     className="bg-green-600 hover:bg-green-700"
                                     onClick={() => handleUpdateSikayetDurumu(sikayet.id!, 'cozuldu')}
                                   >
@@ -944,7 +933,7 @@ export default function MudurPanel() {
                           </DialogContent>
                         </Dialog>
                       )}
-
+                      
                       {sikayet.admin_notu && (
                         <div className="mt-3 p-3 bg-gray-50 rounded text-sm">
                           <span className="font-medium">Yanıt:</span> {sikayet.admin_notu}
@@ -988,7 +977,7 @@ export default function MudurPanel() {
                         />
                       </div>
                     </div>
-
+                    
                     <div className="space-y-2">
                       <div className="flex flex-wrap items-center justify-between gap-3">
                         <Label>Kahvaltı Listesi</Label>
@@ -1022,7 +1011,7 @@ export default function MudurPanel() {
                         />
                       </div>
                     </div>
-
+                    
                     <Button type="submit" className="w-full" disabled={loading}>
                       <Plus className="w-4 h-4 mr-2" />
                       {loading ? 'Ekleniyor...' : 'Ekle / Güncelle'}
@@ -1158,55 +1147,55 @@ export default function MudurPanel() {
                       <Label>TC Kimlik No *</Label>
                       <Input
                         value={newUser.tc_no}
-                        onChange={(e) => setNewUser({ ...newUser, tc_no: e.target.value.replace(/\D/g, '').slice(0, 11) })}
+                        onChange={(e) => setNewUser({...newUser, tc_no: e.target.value.replace(/\D/g, '').slice(0, 11)})}
                         placeholder="11111111111"
                         maxLength={11}
                       />
                     </div>
-
+                    
                     <div className="space-y-2">
                       <Label>Şifre *</Label>
                       <Input
                         type="password"
                         value={newUser.sifre}
-                        onChange={(e) => setNewUser({ ...newUser, sifre: e.target.value })}
+                        onChange={(e) => setNewUser({...newUser, sifre: e.target.value})}
                         placeholder="En az 6 karakter"
                       />
                     </div>
-
+                    
                     <div className="space-y-2">
                       <Label>Ad *</Label>
                       <Input
                         value={newUser.ad}
-                        onChange={(e) => setNewUser({ ...newUser, ad: e.target.value })}
+                        onChange={(e) => setNewUser({...newUser, ad: e.target.value})}
                         placeholder="Ad"
                       />
                     </div>
-
+                    
                     <div className="space-y-2">
                       <Label>Soyad *</Label>
                       <Input
                         value={newUser.soyad}
-                        onChange={(e) => setNewUser({ ...newUser, soyad: e.target.value })}
+                        onChange={(e) => setNewUser({...newUser, soyad: e.target.value})}
                         placeholder="Soyad"
                       />
                     </div>
-
+                    
                     <div className="space-y-2">
                       <Label>Aile Telefonu *</Label>
                       <Input
                         type="tel"
                         value={newUser.aile_telefon}
-                        onChange={(e) => setNewUser({ ...newUser, aile_telefon: e.target.value })}
+                        onChange={(e) => setNewUser({...newUser, aile_telefon: e.target.value})}
                         placeholder="05XX XXX XXXX"
                       />
                     </div>
-
+                    
                     <div className="space-y-2">
                       <Label>Telefon</Label>
                       <Input
                         value={newUser.telefon}
-                        onChange={(e) => setNewUser({ ...newUser, telefon: e.target.value })}
+                        onChange={(e) => setNewUser({...newUser, telefon: e.target.value})}
                         placeholder="05XX XXX XXXX"
                       />
                     </div>

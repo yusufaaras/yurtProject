@@ -135,7 +135,8 @@ export default function IzinYonetim() {
     }
     return <Badge variant="secondary">Beklemede</Badge>
   }
-
+  // Bugünün tarihini YYYY-MM-DD formatında alıyoruz
+const today = new Date().toISOString().split('T')[0];
   return (
     <div className="min-h-screen bg-[var(--brand-cream)] text-[var(--brand-ink)]">
       <YurtHeader />
@@ -156,6 +157,7 @@ export default function IzinYonetim() {
                       className="h-11 rounded-xl border border-black/10 bg-white/90"
                       value={izinForm.baslangic_tarihi}
                       onChange={(e) => setIzinForm({ ...izinForm, baslangic_tarihi: e.target.value })}
+                      min={today}
                       required
                     />
                   </div>

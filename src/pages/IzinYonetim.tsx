@@ -81,8 +81,7 @@ export default function IzinYonetim() {
         bitis_tarihi: '',
         gidilecek_yer: '',
         telefon: user?.telefon || '',
-        aciklama: '',
-        durum: 'onaylandi'
+        aciklama: ''
       })
       await fetchIzinler()
     } catch (error: any) {

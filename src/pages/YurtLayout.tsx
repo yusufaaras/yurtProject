@@ -1,18 +1,11 @@
 import { Link } from "react-router-dom"
 import { 
-  AlarmClock, 
   Building2, 
-  CalendarDays, 
-  ClipboardCheck, 
   MessageSquare, 
-  Salad, 
-  Users, 
   ArrowRight, 
   Sparkles,
-  Bell,
   Moon,
   Sun,
-  MapPin,
   UtensilsCrossed,
   Phone,
   Mail,
@@ -21,8 +14,7 @@ import {
 
 import YurtHeader from "@/components/YurtHeader"
 import { Button } from "@/components/ui/button"
-import { Progress } from "@/components/ui/progress"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Badge } from "@/components/ui/badge"
 import { useAuth } from "@/contexts/AuthContext"
 
@@ -55,37 +47,14 @@ const yurtlar = [
     kapasite: "150+",
     image: "/ankayurtlari/dorms/beyza/beyza-tek-kisilik-1.jpg"
   }
-  // {
-  //   id: 4,
-  //   ad: "Anka Anadolu Kız ve Erkek Öğrenci Yurdu",
-  //   telefon: "0312 123 45 04",
-  //   adres: "Etimesgut/Ankara",
-  //   tip: "Kız/Erkek",
-  //   kapasite: "150+",
-  //   image: "/ankayurtlari/dorms/kampus.jpg"
-  // }
 ]
-
-// Yemek menüsü verileri
-const yemekMenu = {
-  sabah: {
-    baslik: "Kahvaltı",
-    saat: "07:00 - 10:00",
-    menu: ["Açık Büfe Kahvaltı", "Sıcak Simit", "Çeşitli Peynirler", "Zeytin", "Reçel", "Çay/Kahve"]
-  },
-  aksam: {
-    baslik: "Akşam Yemeği",
-    saat: "18:00 - 21:00",
-    menu: ["Çorba", "Ana Yemek", "Pilav/Makarna", "Salata", "Tatlı", "İçecek"]
-  }
-}
 
 export default function YurtLayout() {
   const { user } = useAuth()
   
-  // Kullanıcı adı veritabanından çekiliyor
-  const userName = user?.ad || user?.displayName || "Öğrenci"
-  const userInitial = (userName?.[0] || "Ö").toUpperCase()
+  // Hata Fix: user objesinde displayName yoksa ad'ı kullan, o da yoksa varsayılan ata
+  // Any cast'i geçici bir çözümdür, uzun vadede AuthContext'teki User tipini güncellemelisin
+  const userName = user?.ad || (user as any)?.displayName || "Öğrenci"
 
   return (
     <div className="min-h-screen bg-[#FDFCF9] text-[#1B1E30] selection:bg-[#E2D1B3]">
@@ -122,13 +91,12 @@ export default function YurtLayout() {
                 </div>
               </div>
               
-              {/* Dekoratif Görsel Elemanı */}
               <div className="absolute bottom-0 right-0 hidden lg:block opacity-40 group-hover:opacity-60 transition-opacity">
                 <Building2 size={300} strokeWidth={0.5} className="text-[#C5A267] translate-y-20 translate-x-10" />
               </div>
             </div>
 
-            {/* Yemek Kartı - Tıklanabilir */}
+            {/* Yemek Kartı */}
             <Link 
               to="/ogrenci/yemek" 
               className="flex-1 rounded-[2.5rem] bg-gradient-to-br from-[#E2D1B3] to-[#D4C0A1] p-8 shadow-xl flex flex-col justify-between border border-white/20 group cursor-pointer hover:shadow-2xl transition-all duration-300 hover:scale-[1.02]"
@@ -144,7 +112,6 @@ export default function YurtLayout() {
               </div>
               
               <div className="space-y-4">
-                {/* Sabah Yemeği */}
                 <div className="flex items-center gap-3">
                   <div className="h-8 w-8 rounded-full bg-white/30 flex items-center justify-center">
                     <Sun className="h-4 w-4 text-amber-600" />
@@ -155,7 +122,6 @@ export default function YurtLayout() {
                   </div>
                 </div>
                 
-                {/* Akşam Yemeği */}
                 <div className="flex items-center gap-3">
                   <div className="h-8 w-8 rounded-full bg-white/30 flex items-center justify-center">
                     <Moon className="h-4 w-4 text-indigo-600" />
@@ -176,11 +142,8 @@ export default function YurtLayout() {
 
           {/* Aksiyon Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            
-            {/* Anka Yurtları Bilgi Kartı - Konaklama İzni Yerine */}
             <div className="md:col-span-2 relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#1B1E30] to-[#2D3142] p-8 shadow-xl group">
               <div className="absolute top-0 right-0 w-64 h-64 bg-[#C5A267] opacity-5 rounded-full blur-[60px] group-hover:opacity-10 transition-opacity" />
-              
               <div className="relative z-10 flex flex-col h-full justify-between">
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-4">
@@ -192,18 +155,11 @@ export default function YurtLayout() {
                       <p className="text-sm text-white/50">Öğrenci Konaklama Hizmetleri</p>
                     </div>
                   </div>
-                  <img 
-                    src="/ankayurtlari/logo.png" 
-                    alt="Anka Logo" 
-                    className="h-12 w-12 object-contain opacity-80"
-                  />
                 </div>
                 
                 <div className="mt-6 space-y-3">
                   <p className="text-white/70 text-sm leading-relaxed">
                     2010'dan bu yana Ankara'nın en güvenilir öğrenci yurtları zinciri olarak hizmet veriyoruz. 
-                    Modern tesislerimiz, profesyonel yönetim anlayışımız ve öğrenci odaklı hizmetlerimizle 
-                    akademik hayatınızı kolaylaştırıyoruz.
                   </p>
                   <div className="flex gap-4 pt-2">
                     <div className="text-center">
@@ -214,16 +170,16 @@ export default function YurtLayout() {
                       <p className="text-2xl font-bold text-[#C5A267]">300+</p>
                       <p className="text-xs text-white/50">Öğrenci</p>
                     </div>
+
                     <div className="text-center">
-                      <p className="text-2xl font-bold text-[#C5A267]">7</p>
-                      <p className="text-xs text-white/50">Yıllık</p>
+                      <p className="text-2xl font-bold text-[#C5A267]">7+ Yıl</p>
+                      <p className="text-xs text-white/50">Deneyim</p>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Talep Kartı */}
             <Link to="/ogrenci/talep" className="group rounded-[2rem] bg-[#F5F5F5] p-8 flex flex-col justify-between hover:bg-[#1B1E30] transition-all duration-500">
                <div className="h-12 w-12 rounded-2xl bg-white text-[#1B1E30] flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">
                  <MessageSquare className="h-6 w-6" />
@@ -234,7 +190,6 @@ export default function YurtLayout() {
                </div>
             </Link>
 
-            {/* Servis Saatleri Dialog */}
             <Dialog> 
               <DialogContent className="max-w-md rounded-[2rem] border-none shadow-2xl">
                 <DialogHeader>
@@ -257,13 +212,10 @@ export default function YurtLayout() {
                 </div>
               </DialogContent>
             </Dialog>
-
           </div>
 
           {/* Yurtlarımız & İletişim Paneli */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            
-            {/* Yurtlarımız - Duyurular Yerine */}
             <div className="lg:col-span-2 rounded-[2.5rem] bg-white border border-black/[0.03] p-8 shadow-sm">
               <div className="flex items-center justify-between mb-8">
                 <div className="flex items-center gap-3">
@@ -271,18 +223,11 @@ export default function YurtLayout() {
                   <h2 className="text-xl font-bold">Yurtlarımız</h2>
                 </div>
                </div>
-              
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {yurtlar.map((yurt) => (
                   <div key={yurt.id} className="group flex gap-4 p-4 rounded-2xl bg-slate-50 hover:bg-[#C5A267]/5 border border-transparent hover:border-[#C5A267]/20 transition-all cursor-pointer">
                     <div className="h-20 w-20 rounded-xl bg-slate-200 overflow-hidden flex-shrink-0">
-                      {yurt.image ? (
-                        <img src={yurt.image} alt={yurt.ad} className="h-full w-full object-cover" />
-                      ) : (
-                        <div className="h-full w-full flex items-center justify-center text-slate-400">
-                          <Building2 className="h-8 w-8" />
-                        </div>
-                      )}
+                      <img src={yurt.image} alt={yurt.ad} className="h-full w-full object-cover" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <h4 className="font-bold text-[#1B1E30] truncate">{yurt.ad}</h4>
@@ -291,7 +236,6 @@ export default function YurtLayout() {
                         <Badge variant="secondary" className="text-xs bg-[#C5A267]/10 text-[#C5A267] border-none">
                           {yurt.tip}
                         </Badge>
-                        <span className="text-xs text-slate-400">{yurt.kapasite} Kapasite</span>
                       </div>
                     </div>
                   </div>
@@ -299,23 +243,17 @@ export default function YurtLayout() {
               </div>
             </div>
 
-            {/* İletişim & Destek - Tüm Yurt Numaraları */}
             <div className="rounded-[2.5rem] bg-[#1B1E30] text-white p-8 relative overflow-hidden">
-               <div className="absolute top-0 right-0 w-64 h-64 bg-[#C5A267] opacity-5 rounded-full blur-[60px]" />
-               
                <div className="relative z-10 flex flex-col h-full">
                  <h3 className="text-lg font-['Playfair_Display'] text-[#C5A267] mb-6">İletişim & Destek</h3>
-                 
                  <div className="space-y-4 flex-1 overflow-y-auto max-h-[300px] pr-2 custom-scrollbar">
-                   <p className="text-xs text-white/40 uppercase tracking-wider mb-2">Yurt Telefonları</p>
-                   
                    {yurtlar.map((yurt) => (
                      <a 
                        key={yurt.id} 
                        href={`tel:${yurt.telefon.replace(/\s/g, '')}`}
                        className="flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-colors group"
                      >
-                       <div className="h-8 w-8 rounded-lg bg-[#C5A267]/20 flex items-center justify-center text-[#C5A267] group-hover:bg-[#C5A267] group-hover:text-white transition-colors">
+                       <div className="h-8 w-8 rounded-lg bg-[#C5A267]/20 flex items-center justify-center text-[#C5A267] transition-colors">
                          <Phone className="h-4 w-4" />
                        </div>
                        <div className="flex-1 min-w-0">
@@ -324,49 +262,31 @@ export default function YurtLayout() {
                        </div>
                      </a>
                    ))}
-                   
                    <div className="pt-4 border-t border-white/10">
-                     <a 
-                       href="mailto:beyzadeerkekyurdu@gmail.com"
-                       className="flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-colors"
-                     >
+                     <a href="mailto:beyzadeerkekyurdu@gmail.com" className="flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-colors">
                        <div className="h-8 w-8 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
                          <Mail className="h-4 w-4" />
                        </div>
                        <div>
                          <p className="text-sm font-medium">Genel Merkez</p>
-                         <p className="text-xs text-white/50">beyzadeerkekyurdu@gmail.com</p>
                        </div>
                      </a>
                    </div>
                  </div>
-                 
                  <Button className="w-full mt-6 bg-[#C5A267] hover:bg-[#B38E55] text-white border-none rounded-xl py-6">
                     <Phone className="mr-2 h-4 w-4" />
                     Acil Destek Hattı
                  </Button>
                </div>
             </div>
-
           </div>
         </section>
       </main>
       
       <style>{`
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: rgba(255,255,255,0.05);
-          border-radius: 2px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: rgba(197, 162, 103, 0.3);
-          border-radius: 2px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: rgba(197, 162, 103, 0.5);
-        }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(197, 162, 103, 0.3); border-radius: 2px; }
       `}</style>
     </div>
   )

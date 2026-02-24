@@ -1,223 +1,373 @@
 import { Link } from "react-router-dom"
-import { AlarmClock, Building2, CalendarDays, ClipboardCheck, MessageSquare, Salad, Users } from "lucide-react"
+import { 
+  AlarmClock, 
+  Building2, 
+  CalendarDays, 
+  ClipboardCheck, 
+  MessageSquare, 
+  Salad, 
+  Users, 
+  ArrowRight, 
+  Sparkles,
+  Bell,
+  Moon,
+  Sun,
+  MapPin,
+  UtensilsCrossed,
+  Phone,
+  Mail,
+  ChevronRight
+} from "lucide-react"
 
 import YurtHeader from "@/components/YurtHeader"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Badge } from "@/components/ui/badge"
+import { useAuth } from "@/contexts/AuthContext"
+
+// Yurt verileri
+const yurtlar = [
+  {
+    id: 1,
+    ad: "Beyzade Ekek Öğrenci Yurdu",
+    telefon: "0501 001 40 43 ",
+    adres: "Gölbaşı/Ankara",
+    tip: "Erkek Öğrenci",
+    kapasite: "150+",
+    image: "/ankayurtlari/sections/beyzade.png"
+  },
+  {
+    id: 2,
+    ad: "Beyra Kız Öğrenci yurdu",
+    telefon: "0552 622 40 43",
+    adres: "Gölbaşı/Ankara",
+    tip: "Kız Öğrenci",
+    kapasite: "150+",
+    image: "ankayurtlari/dorms/beyra/dis-cephe.png"
+  },
+  {
+    id: 3,
+    ad: "Beyza Kız Yurdu",
+    telefon: "0552 109 40 43",
+    adres: "Çankaya/Ankara",
+    tip: "Kız Öğrenci",
+    kapasite: "150+",
+    image: "/ankayurtlari/dorms/beyza/beyza-tek-kisilik-1.jpg"
+  }
+  // {
+  //   id: 4,
+  //   ad: "Anka Anadolu Kız ve Erkek Öğrenci Yurdu",
+  //   telefon: "0312 123 45 04",
+  //   adres: "Etimesgut/Ankara",
+  //   tip: "Kız/Erkek",
+  //   kapasite: "150+",
+  //   image: "/ankayurtlari/dorms/kampus.jpg"
+  // }
+]
+
+// Yemek menüsü verileri
+const yemekMenu = {
+  sabah: {
+    baslik: "Kahvaltı",
+    saat: "07:00 - 10:00",
+    menu: ["Açık Büfe Kahvaltı", "Sıcak Simit", "Çeşitli Peynirler", "Zeytin", "Reçel", "Çay/Kahve"]
+  },
+  aksam: {
+    baslik: "Akşam Yemeği",
+    saat: "18:00 - 21:00",
+    menu: ["Çorba", "Ana Yemek", "Pilav/Makarna", "Salata", "Tatlı", "İçecek"]
+  }
+}
 
 export default function YurtLayout() {
+  const { user } = useAuth()
+  
+  // Kullanıcı adı veritabanından çekiliyor
+  const userName = user?.ad || user?.displayName || "Öğrenci"
+  const userInitial = (userName?.[0] || "Ö").toUpperCase()
+
   return (
-    <div className="min-h-screen bg-[var(--brand-cream)] text-[var(--brand-ink)]">
+    <div className="min-h-screen bg-[#FDFCF9] text-[#1B1E30] selection:bg-[#E2D1B3]">
       <YurtHeader />
-      <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+      
+      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <section className="space-y-10">
-          <div className="relative overflow-hidden rounded-3xl border border-black/10 bg-white/90 shadow-sm">
-            <div className="absolute inset-0">
-              <img
-                src="/ankayurtlari/sections/experience.jpg"
-                alt="Yurt Yönetim Sistemi"
-                className="h-full w-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-[var(--brand-ink)]/85 via-[var(--brand-ink)]/60 to-transparent" />
-            </div>
-            <div className="relative px-6 py-12 text-left sm:px-10">
-              <p className="text-xs uppercase tracking-[0.35em] text-[var(--brand-gold)]">Yurt Yönetim Sistemi</p>
-              <h1 className="mt-4 font-['Playfair_Display'] text-3xl font-semibold text-[var(--brand-cream)] sm:text-4xl">
-                Yurt Yönetim Sistemine Hoş Geldiniz
-              </h1>
-              <p className="mt-3 max-w-2xl text-sm text-[var(--brand-sand)]">
-                Yurt operasyonlarınızı düzenli, sakin ve güvenilir bir arayüzle yönetin.
-              </p>
-            </div>
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-            {[
-              {
-                title: "Toplam Öğrencilerimiz",
-                value: "15",
-                subtitle: "Aktif kayıtlı öğrenci",
-                accent: "from-[var(--brand-gold)]/60 to-[var(--brand-gold)]",
-                icon: Users,
-              },
-              {
-                title: "Yurtlarımız",
-                value: "25",
-                subtitle: "Toplam kapasite",
-                accent: "from-[var(--brand-olive)]/40 to-[var(--brand-olive)]",
-                icon: Building2,
-              },
-              {
-                title: "Servis İmkanımız",
-                value: "10",
-                subtitle: "Sefer Saatleri & Güzergah",
-                accent: "from-[var(--brand-sand)] to-[var(--brand-gold)]/60",
-                icon: AlarmClock,
-                clickable: true,
-              },
-              {
-                title: "Sabah ve Akşam Servisi",
-                value: "Yemek Servisi",
-                subtitle: "Kahvaltı & Akşam Yemeği",
-                accent: "from-[var(--brand-gold)]/60 to-[var(--brand-olive)]/60",
-                icon: Salad,
-              },
-            ].map((card) => {
-              const content = (
-                <>
-                  <div className={`h-1 w-full rounded-t-2xl bg-gradient-to-r ${card.accent}`} />
-                  <div className="flex flex-col items-center gap-3 p-6 text-center">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--brand-sand)] text-[var(--brand-olive)]">
-                      <card.icon className="h-5 w-5" />
-                    </div>
-                    <div className="text-[11px] font-semibold uppercase tracking-wide text-[var(--brand-ink)]/60">
-                      {card.title}
-                    </div>
-                    <div className="text-3xl font-semibold text-[var(--brand-ink)]">{card.value}</div>
-                    <div className="text-xs text-[var(--brand-ink)]/60">{card.subtitle}</div>
-                  </div>
-                </>
-              )
-
-              if (card.clickable) {
-                return (
-                  <Dialog key={card.title}>
-                    <DialogTrigger asChild>
-                      <button
-                        type="button"
-                        className="w-full rounded-2xl border border-black/10 bg-white/90 text-left shadow-md shadow-black/5 transition hover:-translate-y-0.5 hover:shadow-lg"
-                      >
-                        {content}
-                      </button>
-                    </DialogTrigger>
-                    <DialogContent className="max-w-lg">
-                      <DialogHeader>
-                        <DialogTitle className="font-['Playfair_Display'] text-xl">Servis Saatleri ve Güzergahlar</DialogTitle>
-                      </DialogHeader>
-                      <div className="space-y-4 text-sm text-[var(--brand-ink)]/70">
-                        <div className="rounded-xl border border-black/10 bg-[var(--brand-cream)] p-4">
-                          <div className="font-semibold text-[var(--brand-ink)]">Sabah Servisi</div>
-                          <div className="mt-2">07:00 - 07:30 - 08:00</div>
-                          <div className="mt-1 text-xs text-[var(--brand-ink)]/60">Merkez → Kampüs → Kız Yurdu</div>
-                        </div>
-                        <div className="rounded-xl border border-black/10 bg-[var(--brand-cream)] p-4">
-                          <div className="font-semibold text-[var(--brand-ink)]">Akşam Servisi</div>
-                          <div className="mt-2">18:00 - 18:30 - 19:00</div>
-                          <div className="mt-1 text-xs text-[var(--brand-ink)]/60">Kampüs → Merkez → Erkek Yurdu</div>
-                        </div>
-                      </div>
-                    </DialogContent>
-                  </Dialog>
-                )
-              }
-
-              return (
-                <div
-                  key={card.title}
-                  className="rounded-2xl border border-black/10 bg-white/90 shadow-md shadow-black/5"
-                >
-                  {content}
+          
+          {/* Üst Karşılama Alanı */}
+          <div className="flex flex-col lg:flex-row gap-6 items-stretch">
+            {/* Hero Card */}
+            <div className="relative flex-[2] overflow-hidden rounded-[2.5rem] bg-[#1B1E30] p-8 sm:p-12 shadow-2xl group">
+              <div className="absolute top-0 right-0 -translate-y-12 translate-x-12 w-64 h-64 bg-[#C5A267] opacity-10 blur-[80px] rounded-full group-hover:opacity-20 transition-opacity" />
+              
+              <div className="relative z-10 flex flex-col h-full justify-between">
+                <div>
+                  <Badge className="bg-[#C5A267]/20 text-[#C5A267] border-none px-4 py-1 mb-6 backdrop-blur-md">
+                    <Sparkles className="mr-2 h-3 w-3" />
+                    Anka Yurtları
+                  </Badge>
+                  <h1 className="font-['Playfair_Display'] text-4xl sm:text-5xl font-bold text-[#FDFCF9] leading-tight">
+                    Hoş Geldiniz, <br />
+                    <span className="text-[#C5A267]">{userName}</span>
+                  </h1>
+                  <p className="mt-4 max-w-md text-[#E2D1B3]/70 text-lg leading-relaxed font-light">
+                    Anka Yurtları'nda konforun ve güvenin tadını çıkarın. Tüm işlemleriniz tek bir panelde.
+                  </p>
                 </div>
-              )
-            })}
+                
+                <div className="mt-10 flex gap-4">
+                  <Button asChild className="rounded-full bg-[#C5A267] hover:bg-[#B38E55] text-white px-8 py-6 h-auto text-base">
+                    <Link to="/ogrenci/izin">İzin Başlat <ArrowRight className="ml-2 h-4 w-4" /></Link>
+                  </Button>
+                </div>
+              </div>
+              
+              {/* Dekoratif Görsel Elemanı */}
+              <div className="absolute bottom-0 right-0 hidden lg:block opacity-40 group-hover:opacity-60 transition-opacity">
+                <Building2 size={300} strokeWidth={0.5} className="text-[#C5A267] translate-y-20 translate-x-10" />
+              </div>
+            </div>
+
+            {/* Yemek Kartı - Tıklanabilir */}
+            <Link 
+              to="/ogrenci/yemek" 
+              className="flex-1 rounded-[2.5rem] bg-gradient-to-br from-[#E2D1B3] to-[#D4C0A1] p-8 shadow-xl flex flex-col justify-between border border-white/20 group cursor-pointer hover:shadow-2xl transition-all duration-300 hover:scale-[1.02]"
+            >
+              <div className="flex justify-between items-start">
+                <div className="h-14 w-14 rounded-2xl bg-white/40 backdrop-blur-md flex items-center justify-center text-[#1B1E30] group-hover:scale-110 transition-transform">
+                  <UtensilsCrossed className="h-7 w-7" />
+                </div>
+                <div className="text-right font-medium text-[#1B1E30]/60">
+                  <p>{new Date().toLocaleDateString('tr-TR', { day: 'numeric', month: 'long' })}</p>
+                  <p className="text-sm">{new Date().toLocaleDateString('tr-TR', { weekday: 'long' })}</p>
+                </div>
+              </div>
+              
+              <div className="space-y-4">
+                {/* Sabah Yemeği */}
+                <div className="flex items-center gap-3">
+                  <div className="h-8 w-8 rounded-full bg-white/30 flex items-center justify-center">
+                    <Sun className="h-4 w-4 text-amber-600" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-[#1B1E30]/40 uppercase tracking-wider">Sabah</p>
+                    <p className="text-sm font-medium text-[#1B1E30]">Kahvaltı (07:00-10:00)</p>
+                  </div>
+                </div>
+                
+                {/* Akşam Yemeği */}
+                <div className="flex items-center gap-3">
+                  <div className="h-8 w-8 rounded-full bg-white/30 flex items-center justify-center">
+                    <Moon className="h-4 w-4 text-indigo-600" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-[#1B1E30]/40 uppercase tracking-wider">Akşam</p>
+                    <p className="text-sm font-medium text-[#1B1E30]">Yemek (18:00-21:00)</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-2 mt-4 text-sm font-bold text-[#1B1E30]/70 group-hover:text-[#1B1E30] transition-colors">
+                  Menüyü Görüntüle
+                  <ChevronRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </div>
+            </Link>
           </div>
 
-          <div className="rounded-2xl border border-black/10 bg-[var(--brand-sand)]/70 p-6">
-            <h2 className="text-lg font-semibold text-[var(--brand-ink)]">Hızlı Aksiyonlar</h2>
-            <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-              {[
-                {
-                  title: "Yurttan İzin Al",
-                  description: "İzin formunu hızlıca doldur ve gönder",
-                  icon: ClipboardCheck,
-                  href: "/ogrenci/izin",
-                },
-                {
-                  title: "Talepte Bulun",
-                  description: "Şikayet, istek veya öneri gönder",
-                  icon: MessageSquare,
-                  href: "/ogrenci/talep",
-                },
-                {
-                  title: "Yemek Listesini Görüntüle",
-                  description: "Haftalık yemek listesini incele",
-                  icon: Salad,
-                  href: "/ogrenci/yemek",
-                },
-                {
-                  title: "Geç Giriş Bildir",
-                  description: "Geç giriş bilgini yönetime ilet",
-                  icon: AlarmClock,
-                  href: "/ogrenci/izin",
-                },
-              ].map((action) => (
-                <Button
-                  key={action.title}
-                  variant="outline"
-                  className="h-auto w-full items-start gap-4 rounded-xl border border-black/10 bg-white/90 px-5 py-4 text-left shadow-sm hover:bg-[var(--brand-sand)]/60"
-                  asChild
-                >
-                  <Link to={action.href}>
-                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--brand-sand)] text-[var(--brand-olive)]">
-                      <action.icon className="h-4 w-4" />
+          {/* Aksiyon Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            
+            {/* Anka Yurtları Bilgi Kartı - Konaklama İzni Yerine */}
+            <div className="md:col-span-2 relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#1B1E30] to-[#2D3142] p-8 shadow-xl group">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-[#C5A267] opacity-5 rounded-full blur-[60px] group-hover:opacity-10 transition-opacity" />
+              
+              <div className="relative z-10 flex flex-col h-full justify-between">
+                <div className="flex items-start justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="h-12 w-12 rounded-2xl bg-white/10 flex items-center justify-center text-[#C5A267]">
+                      <Building2 className="h-6 w-6" />
                     </div>
                     <div>
-                      <p className="text-sm font-semibold text-[var(--brand-ink)]">{action.title}</p>
-                      <p className="mt-1 text-xs text-[var(--brand-ink)]/60">{action.description}</p>
+                      <h3 className="font-bold text-lg text-white">Anka Yurtları</h3>
+                      <p className="text-sm text-white/50">Öğrenci Konaklama Hizmetleri</p>
                     </div>
-                  </Link>
-                </Button>
-              ))}
+                  </div>
+                  <img 
+                    src="/ankayurtlari/logo.png" 
+                    alt="Anka Logo" 
+                    className="h-12 w-12 object-contain opacity-80"
+                  />
+                </div>
+                
+                <div className="mt-6 space-y-3">
+                  <p className="text-white/70 text-sm leading-relaxed">
+                    2010'dan bu yana Ankara'nın en güvenilir öğrenci yurtları zinciri olarak hizmet veriyoruz. 
+                    Modern tesislerimiz, profesyonel yönetim anlayışımız ve öğrenci odaklı hizmetlerimizle 
+                    akademik hayatınızı kolaylaştırıyoruz.
+                  </p>
+                  <div className="flex gap-4 pt-2">
+                    <div className="text-center">
+                      <p className="text-2xl font-bold text-[#C5A267]">4</p>
+                      <p className="text-xs text-white/50">Yurt</p>
+                    </div>
+                    <div className="text-center">
+                      <p className="text-2xl font-bold text-[#C5A267]">300+</p>
+                      <p className="text-xs text-white/50">Öğrenci</p>
+                    </div>
+                    <div className="text-center">
+                      <p className="text-2xl font-bold text-[#C5A267]">7</p>
+                      <p className="text-xs text-white/50">Yıllık</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+
+            {/* Talep Kartı */}
+            <Link to="/ogrenci/talep" className="group rounded-[2rem] bg-[#F5F5F5] p-8 flex flex-col justify-between hover:bg-[#1B1E30] transition-all duration-500">
+               <div className="h-12 w-12 rounded-2xl bg-white text-[#1B1E30] flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">
+                 <MessageSquare className="h-6 w-6" />
+               </div>
+               <div>
+                 <h3 className="text-xl font-bold group-hover:text-white transition-colors">Talep & Öneri</h3>
+                 <p className="text-sm text-slate-500 group-hover:text-slate-400 transition-colors mt-1">Teknik destek veya istek bildirimi yapın.</p>
+               </div>
+            </Link>
+
+            {/* Servis Saatleri Dialog */}
+            <Dialog> 
+              <DialogContent className="max-w-md rounded-[2rem] border-none shadow-2xl">
+                <DialogHeader>
+                  <DialogTitle className="text-2xl font-['Playfair_Display']">Servis Güzergahları</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-4 py-4">
+                  {[
+                    { title: "Sabah - Kampüs", time: "07:30", color: "bg-amber-100 text-amber-700", desc: "Merkez Durak kalkışlı" },
+                    { title: "Öğle - Ring", time: "12:15", color: "bg-blue-100 text-blue-700", desc: "Kütüphane önü kalkışlı" },
+                    { title: "Akşam - Dönüş", time: "17:45", color: "bg-indigo-100 text-indigo-700", desc: "Fakülte önü kalkışlı" },
+                  ].map((s, i) => (
+                    <div key={i} className="flex items-center justify-between p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                      <div>
+                        <p className="font-bold">{s.title}</p>
+                        <p className="text-xs text-slate-500">{s.desc}</p>
+                      </div>
+                      <Badge className={`${s.color} border-none text-base px-4 py-1`}>{s.time}</Badge>
+                    </div>
+                  ))}
+                </div>
+              </DialogContent>
+            </Dialog>
+
           </div>
 
-          <div className="overflow-hidden rounded-2xl border border-black/10 bg-white/90 shadow-md shadow-black/5">
-            <div className="bg-[var(--brand-olive)]/10 px-6 py-4">
-              <h2 className="text-lg font-semibold text-[var(--brand-ink)]">İstatistik Paneli</h2>
-            </div>
-            <div className="grid gap-4 p-6 md:grid-cols-3">
-              <div className="rounded-2xl border border-black/10 bg-[var(--brand-cream)] p-5">
+          {/* Yurtlarımız & İletişim Paneli */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            {/* Yurtlarımız - Duyurular Yerine */}
+            <div className="lg:col-span-2 rounded-[2.5rem] bg-white border border-black/[0.03] p-8 shadow-sm">
+              <div className="flex items-center justify-between mb-8">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--brand-sand)] text-[var(--brand-olive)]">
-                    <CalendarDays className="h-4 w-4" />
-                  </div>
-                  <div>
-                    <p className="text-xs text-[var(--brand-ink)]/60">Kullanılan İzin Günü</p>
-                    <p className="text-lg font-semibold text-[var(--brand-ink)]">8 gün</p>
-                  </div>
+                  <Building2 className="text-[#C5A267]" />
+                  <h2 className="text-xl font-bold">Yurtlarımız</h2>
                 </div>
-                <p className="mt-3 text-xs text-[var(--brand-ink)]/60">Bu dönem kullanılan izin</p>
-              </div>
-
-              <div className="rounded-2xl border border-black/10 bg-[var(--brand-cream)] p-5">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--brand-sand)] text-[var(--brand-olive)]">
-                    <AlarmClock className="h-4 w-4" />
+               </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {yurtlar.map((yurt) => (
+                  <div key={yurt.id} className="group flex gap-4 p-4 rounded-2xl bg-slate-50 hover:bg-[#C5A267]/5 border border-transparent hover:border-[#C5A267]/20 transition-all cursor-pointer">
+                    <div className="h-20 w-20 rounded-xl bg-slate-200 overflow-hidden flex-shrink-0">
+                      {yurt.image ? (
+                        <img src={yurt.image} alt={yurt.ad} className="h-full w-full object-cover" />
+                      ) : (
+                        <div className="h-full w-full flex items-center justify-center text-slate-400">
+                          <Building2 className="h-8 w-8" />
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-bold text-[#1B1E30] truncate">{yurt.ad}</h4>
+                      <p className="text-xs text-slate-500 mt-1">{yurt.adres}</p>
+                      <div className="flex items-center gap-2 mt-2">
+                        <Badge variant="secondary" className="text-xs bg-[#C5A267]/10 text-[#C5A267] border-none">
+                          {yurt.tip}
+                        </Badge>
+                        <span className="text-xs text-slate-400">{yurt.kapasite} Kapasite</span>
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-xs text-[var(--brand-ink)]/60">Geç Giriş Sayısı</p>
-                    <p className="text-lg font-semibold text-[var(--brand-ink)]">3</p>
-                  </div>
-                </div>
-                <p className="mt-3 text-xs text-[var(--brand-ink)]/60">Bildirim adedi</p>
-              </div>
-
-              <div className="rounded-2xl border border-black/10 bg-[var(--brand-cream)] p-5">
-                <p className="text-xs text-[var(--brand-ink)]/60">Kalan İzin Hakkı</p>
-                <p className="mt-2 text-lg font-semibold text-[var(--brand-ink)]">22 / 30 gün</p>
-                <div className="mt-4">
-                  <Progress
-                    value={73}
-                    className="bg-[var(--brand-sand)] [&_[data-slot=progress-indicator]]:bg-[var(--brand-olive)]"
-                  />
-                  <p className="mt-2 text-xs text-[var(--brand-ink)]/60">Toplam hakkınızdan kalan</p>
-                </div>
+                ))}
               </div>
             </div>
+
+            {/* İletişim & Destek - Tüm Yurt Numaraları */}
+            <div className="rounded-[2.5rem] bg-[#1B1E30] text-white p-8 relative overflow-hidden">
+               <div className="absolute top-0 right-0 w-64 h-64 bg-[#C5A267] opacity-5 rounded-full blur-[60px]" />
+               
+               <div className="relative z-10 flex flex-col h-full">
+                 <h3 className="text-lg font-['Playfair_Display'] text-[#C5A267] mb-6">İletişim & Destek</h3>
+                 
+                 <div className="space-y-4 flex-1 overflow-y-auto max-h-[300px] pr-2 custom-scrollbar">
+                   <p className="text-xs text-white/40 uppercase tracking-wider mb-2">Yurt Telefonları</p>
+                   
+                   {yurtlar.map((yurt) => (
+                     <a 
+                       key={yurt.id} 
+                       href={`tel:${yurt.telefon.replace(/\s/g, '')}`}
+                       className="flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-colors group"
+                     >
+                       <div className="h-8 w-8 rounded-lg bg-[#C5A267]/20 flex items-center justify-center text-[#C5A267] group-hover:bg-[#C5A267] group-hover:text-white transition-colors">
+                         <Phone className="h-4 w-4" />
+                       </div>
+                       <div className="flex-1 min-w-0">
+                         <p className="text-sm font-medium truncate">{yurt.ad}</p>
+                         <p className="text-xs text-white/50">{yurt.telefon}</p>
+                       </div>
+                     </a>
+                   ))}
+                   
+                   <div className="pt-4 border-t border-white/10">
+                     <a 
+                       href="mailto:beyzadeerkekyurdu@gmail.com"
+                       className="flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-colors"
+                     >
+                       <div className="h-8 w-8 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
+                         <Mail className="h-4 w-4" />
+                       </div>
+                       <div>
+                         <p className="text-sm font-medium">Genel Merkez</p>
+                         <p className="text-xs text-white/50">beyzadeerkekyurdu@gmail.com</p>
+                       </div>
+                     </a>
+                   </div>
+                 </div>
+                 
+                 <Button className="w-full mt-6 bg-[#C5A267] hover:bg-[#B38E55] text-white border-none rounded-xl py-6">
+                    <Phone className="mr-2 h-4 w-4" />
+                    Acil Destek Hattı
+                 </Button>
+               </div>
+            </div>
+
           </div>
         </section>
       </main>
+      
+      <style>{`
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: rgba(255,255,255,0.05);
+          border-radius: 2px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: rgba(197, 162, 103, 0.3);
+          border-radius: 2px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: rgba(197, 162, 103, 0.5);
+        }
+      `}</style>
     </div>
   )
 }
